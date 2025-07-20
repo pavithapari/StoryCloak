@@ -15,38 +15,6 @@
   color: #FFD700; /* Gold hover */
 }
 
-/* Search Input */
-.search-box {
-  border: 2px solid #FFFFFF;
-  background-color: transparent;
-  color: #2F4F4F;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  transition: all 0.3s ease;
-}
-
-.search-box:focus {
-  border-color: #FFD700;
-  outline: none;
-}
-
-/* Search Button */
-.search-btn {
-  border: 2px solid #FFFFFF;
-  background-color: transparent;
-  color: #FFFFFF;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.search-btn:hover {
-  background-color: #FFD700;
-  color: #2F4F4F;
-  border-color: #FFD700;
-}
-
 /* Footer Styling */
 footer {
   background-color: #ADD8E6; /* Muted blue */
