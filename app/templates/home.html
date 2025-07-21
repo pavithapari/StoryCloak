@@ -2,7 +2,181 @@
 {% block title %}Home - StoryCloak{% endblock %}
 
 {% block content %}
-    <h1>Welcome to StoryCloak</h1>
-    <p>Your one-stop solution for sharing and discovering stories.</p>
-    <p>Current Year: {{ year }}</p>
+<style>
+  /* Fixed Sidebar (Desktop) */
+  @media (min-width: 992px) {
+    aside {
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+  }
+
+  /* Sidebar link hover */
+  .sidebar-link:hover {
+    background-color: #eef5ff;
+    border-radius: 5px;
+    padding-left: 5px;
+    transition: all 0.2s ease;
+  }
+
+  .sidebar-card {
+    font-size: 0.95rem;
+    padding: 0.25rem;
+  }
+
+  .article-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .article-card .card-body {
+    flex-grow: 1;
+  }
+
+  @media (max-width: 991.98px) {
+    .offcanvas-start {
+      width: 260px !important;
+    }
+
+    .offcanvas-body .sidebar-link {
+      font-size: 1.1rem;
+      display: block;
+      padding: 12px 0;
+      margin-bottom: 6px;
+      color: #0d6efd;
+      transition: background-color 0.2s ease;
+    }
+
+    .offcanvas-body .sidebar-link:hover {
+      background-color: #e8f0ff;
+      padding-left: 8px;
+      border-radius: 6px;
+    }
+
+    .offcanvas-body strong {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 1.15rem;
+    }
+  }
+</style>
+
+<!-- Mobile Hamburger Menu -->
+<div class="container py-3 d-lg-none">
+  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+    <i class="bi bi-list"></i> Menu
+  </button>
+</div>
+
+<!-- Offcanvas Sidebar (Mobile) -->
+<div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+  <div class="offcanvas-header bg-primary text-white">
+    <h5 class="offcanvas-title" id="sidebarMenuLabel">Explore</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-unstyled">
+      <li><a href="#!" class="sidebar-link"><i class="bi bi-graph-up me-2"></i>Trending</a></li>
+      <li><a href="#!" class="sidebar-link"><i class="bi bi-clock-history me-2"></i>Latest Posts</a></li>
+      <li><strong><i class="bi bi-folder me-2"></i>Categories</strong></li>
+      <ul class="ps-3">
+        <li><a href="#!" class="sidebar-link text-dark">😂 Humours</a></li>
+        <li><a href="#!" class="sidebar-link text-dark">💡 Tips</a></li>
+        <li><a href="#!" class="sidebar-link text-dark">📝 Reviews</a></li>
+        <li><a href="#!" class="sidebar-link text-dark">👤 Personal</a></li>
+      </ul>
+    </ul>
+  </div>
+</div>
+
+<!-- Main Layout -->
+<div class="container">
+  <div class="row">
+
+    <!-- Desktop Sidebar -->
+    <aside class="col-lg-3 d-none d-lg-block">
+      <div class="card sidebar-card shadow-sm border-primary-subtle mb-4">
+        <div class="card-header bg-primary text-white">
+          <strong>Explore</strong>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item sidebar-link">
+            <a href="#!" class="text-decoration-none text-primary"><i class="bi bi-graph-up"></i> Trending</a>
+          </li>
+          <li class="list-group-item sidebar-link">
+            <a href="#!" class="text-decoration-none text-primary"><i class="bi bi-clock-history"></i> Latest Posts</a>
+          </li>
+          <li class="list-group-item">
+            <strong><i class="bi bi-folder"></i> Categories</strong>
+            <ul class="list-unstyled mt-2 ps-3">
+              <li class="sidebar-link"><a href="#!" class="text-decoration-none text-dark">😂 Humours</a></li>
+              <li class="sidebar-link"><a href="#!" class="text-decoration-none text-dark">💡 Tips</a></li>
+              <li class="sidebar-link"><a href="#!" class="text-decoration-none text-dark">📝 Reviews</a></li>
+              <li class="sidebar-link"><a href="#!" class="text-decoration-none text-dark">👤 Personal</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Articles Section -->
+    <main class="col-12 col-lg-9 mt-4">
+      {% for i in range(10) %}
+      <article class="mb-4">
+    <div class="card shadow-sm mb-4" style="max-width: 100%;">
+        <div class="card-body">
+
+    <!-- USER INFO & CATEGORY -->
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center">
+        <img src="{{url_for('static', filename='images/test.webp')}}"
+             alt="avatar" class="rounded-circle me-2" width="40" height="40">
+        <div>
+          <h6 class="mb-0">pavitha</h6>
+          <small class="text-muted">10-11-2023</small>
+        </div>
+      </div>
+      <span class="badge bg-primary">humor</span>
+    </div>
+
+    <!-- TITLE -->
+    <h5 class="card-title">Perfect day</h5>
+
+    <!-- CONTENT WITH READ MORE -->
+    <div class="card-text" style="max-height: 100px; overflow: hidden; position: relative;">
+      <p class="text-truncate-ellipsis">Lorem ipsum dolor sit amet consectetur adipisicing elit. Error cumque mollitia rerum eos natus dignissimos sunt accusantium nostrum repellat ipsum. Nisi molestiae fugiat sed corrupti commodi aspernatur illum atque aperiam?</p>
+      <div class="text-end mt-2">
+        <a href="" class="btn btn-sm btn-outline-primary">
+          Read More
+        </a>
+            </div>
+            </div>
+        </div>
+                  <div class="card-footer d-flex justify-content-between align-items-center bg-light">
+            <small class="text-muted">
+              <i class="bi bi-calendar3"></i> 7 Feb 2023
+            </small>
+            <div>
+              <button class="btn btn-sm btn-outline-primary me-2">
+                <i class="bi bi-hand-thumbs-up"></i> Upvote
+              </button>
+              <button class="btn btn-sm btn-outline-secondary me-2">
+                <i class="bi bi-link-45deg"></i> Share
+              </button>
+              <button class="btn btn-sm btn-outline-info">
+                <i class="bi bi-stars"></i> Related
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </main>
+
+  </div>
+</div>
 {% endblock %}
