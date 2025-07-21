@@ -1,0 +1,32 @@
+/* Navbar Styling */
+.navbar-custom {
+  background-color: #84A6C7; /* Light blue */
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link,
+.navbar-custom .nav-link i {
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .navbar-brand:hover {
+  color: #FFD700; /* Gold hover */
+}
+
+/* Footer Styling */
+footer {
+  background-color: #ADD8E6; /* Muted blue */
+  color: #FFFFFF;
+}
+
+footer a {
+  color: #FFFFFF;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #FFD700;
+}
