@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %} Login {% endblock %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Sign up the form</legend>
+            <!-- Email -->
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                    <div class="form-floating flex-grow-1">
+                        {% if form.email.errors %}
+                            {{ form.email(class="form-control is-invalid", id="floatingEmail", placeholder="Enter email") }}
+                            <label for="floatingEmail">Email</label>
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.email(class="form-control", id="floatingEmail", placeholder="Enter email") }}
+                            <label for="floatingEmail">Email</label>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                    <div class="form-floating flex-grow-1">
+                        {% if form.password.errors %}
+                            {{ form.password(class="form-control is-invalid", id="floatingpass", placeholder="Enter password") }}
+                            <label for="floatingpass">Password</label>
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class="form-control", id="floatingpass", placeholder="Enter password") }}
+                            <label for="floatingpass">Password</label>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="form-check">
+                {{form.remember(class="form-check-input", id="remember")}}
+                {{ form.remember.label(class="form-check-label") }}
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info mt-3 mb-3") }}
+        </div>
+        <small class="text-muted ml-2">
+            <a href="">Forget Password?</a>
+    </form>
+
+    <div class="border-top mb-4 mt-3 pt-3">
+        <small class="text-muted">
+            Don't you have an account? <a class="ml-2" href="{{ url_for('users.signup') }}">Sign Up Now</a>
+        </small>
+    </div>
+</div>
+
+{% endblock %}

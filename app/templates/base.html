@@ -45,10 +45,10 @@
       <!-- Right: Login & Sign Up -->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
+          <a class="nav-link" href="{{ url_for('users.login') }}"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="bi bi-person-plus-fill me-1"></i>Sign Up</a>
+          <a class="nav-link" href="{{ url_for('users.signup')}}"><i class="bi bi-person-plus-fill me-1"></i>Sign Up</a>
         </li>
       </ul>
     </div>
