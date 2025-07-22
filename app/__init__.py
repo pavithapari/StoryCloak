@@ -11,13 +11,6 @@ from config import Config
 
 db=SQLAlchemy()
 bcrypt = Bcrypt()
-
-
-
-
-
-
-
 def create_app(config_class=Config):
     app = Flask(__name__)
 # Load configuration settings (e.g., development, production) from Config class
@@ -32,6 +25,10 @@ def create_app(config_class=Config):
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
+    with app.app_context():
+        from app.models import User, Post
+        db.create_all()
+
     return app
 
 

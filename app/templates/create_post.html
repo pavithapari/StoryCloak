@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Craft Your Cloak - StoryCloak{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center text-primary fw-bold mb-4">Craft Your Cloak</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <!-- Post Title -->
+    <div class="mb-4">
+      <label for="floatingTitle" class="form-label">Title</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="fa fa-heading"></i></span>
+        {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else ""), id="floatingTitle", placeholder="Enter post title") }}
+        {% if form.title.errors %}
+        <div class="invalid-feedback">
+          {% for error in form.title.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Post Content -->
+    <div class="mb-4">
+      <label for="floatingContent" class="form-label">Content</label>
+      {{ form.content(class="form-control" + (" is-invalid" if form.content.errors else ""), id="floatingContent", placeholder="Write your content here", rows="6") }}
+      {% if form.content.errors %}
+      <div class="invalid-feedback">
+        {% for error in form.content.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+<!-- Tags - Collapsible Dropdown with Checkboxes -->
+<div class="mb-4">
+  <label class="form-label">Tags / Categories</label>
+  
+  <button class="btn btn-outline-primary w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#tagOptions" aria-expanded="false" aria-controls="tagOptions">
+    <i class="fa fa-tags me-2"></i> Select Tags
+  </button>
+
+  <div class="collapse mt-2" id="tagOptions">
+    <div class="card card-body">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="tags" value="humor" id="tagHumor">
+        <label class="form-check-label" for="tagHumor">Humor</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="tags" value="personal" id="tagPersonal">
+        <label class="form-check-label" for="tagPersonal">Personal</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="tags" value="tips" id="tagTips">
+        <label class="form-check-label" for="tagTips">Tips</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="tags" value="reviews" id="tagReviews">
+        <label class="form-check-label" for="tagReviews">Reviews</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="tags" value="tech" id="tagTech">
+        <label class="form-check-label" for="tagTech">Tech</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="tags" value="notes" id="tagNotes">
+        <label class="form-check-label" for="tagNotes">Notes</label>
+      </div>
+    </div>
+  </div>
+
+  <small class="form-text text-muted mt-2">Choose one or more tags.</small>
+</div>
+    <!-- Visibility Toggle -->
+    <div class="mb-4">
+      <label class="form-label">Choose Visibility</label>
+      <div class="btn-group w-100" role="group">
+        <input type="radio" class="btn-check color:#FFFFF;" name="visibility" id="publicPost" value="public" checked>
+        <label class="btn btn-outline-success" for="publicPost">Post Publicly</label>
+
+        <input type="radio" class="btn-check" name="visibility" id="personalNote" value="private">
+        <label class="btn btn-outline-secondary" for="personalNote">Save as Personal Note</label>
+      </div>
+    </div>
+
+    <!-- Single Submit Button -->
+    <div class="d-grid mt-4">
+      {{ form.submit(class="btn btn-primary btn-lg") }}
+    </div>
+  </form>
+</div>
+{% endblock %}

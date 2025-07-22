@@ -20,8 +20,8 @@
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.email(class="form-control", id="floatingEmail", placeholder="Enter Username") }}
-                            <label for="floatingEmail">Username</label>
+                            {{ form.username(class="form-control", id="floatingUsername", placeholder="Enter Username") }}
+                            <label for="floatingUsername">Username</label>
                         {% endif %}
                     </div>
                 </div>
@@ -71,19 +71,19 @@
             <!-- confirm Password -->
             <div class="mb-3">
                 <div class="input-group">
-                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                    <span class="input-group-text"><i class="fa fa-check"></i></span>
                     <div class="form-floating flex-grow-1">
                         {% if form.con_password.errors %}
-                            {{ form.con_password(class="form-control is-invalid", id="floatingpass", placeholder="Enter password") }}
-                            <label for="floatingpass">Password</label>
+                            {{ form.con_password(class="form-control is-invalid", id="floatingconpass", placeholder="Confirm password") }}
+                            <label for="floatingconpass">Confirm Password</label>
                             <div class="invalid-feedback">
                                 {% for error in form.con_password.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.con_password(class="form-control", id="floatingpass", placeholder="Confirm password") }}
-                            <label for="floatingpass">Confirm Password</label>
+                            {{ form.con_password(class="form-control", id="floatingconpass", placeholder="Confirm password") }}
+                            <label for="floatingconpass">Confirm Password</label>
                         {% endif %}
                     </div>
                 </div>
