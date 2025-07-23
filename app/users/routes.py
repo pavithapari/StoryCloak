@@ -60,7 +60,7 @@ def profile():
             flash("Your profile has been updated successfully!", "success")
             return redirect(url_for('users.profile'))
 
-    return render_template("profile.html",now=datetime.now(),year=datetime.now().year,form=form,user=user)
+    return render_template("profile.html",now=datetime.now(),year=datetime.now().year,form=form,user=user,posts=user.posts)
 
 @users.route('/logout')
 def logout():
@@ -77,16 +77,30 @@ def upload_profile_picture():
     picture=form.profile_picture.data
     if picture:
         old_picture_path = current_user.profile_picture
-        delete_old_avatar(old_picture_path)
         newpath = save_picture(picture, current_user.email)
-        current_user.profile_picture = newpath
-        db.session.commit()
-        flash("Your profile picture has been updated successfully!", "success")
-        return redirect(url_for('users.profile'))
+        if newpath is None:
+            flash("Failed to save new picture. Please try again.", "danger")
+            return redirect(url_for('users.profile'))
+        else:
+            delete_old_avatar(old_picture_path)  # Delete old avatar if it exists
+            current_user.profile_picture = newpath
+            db.session.commit()
+            flash("Your profile picture has been updated successfully!", "success")
+            return redirect(url_for('users.profile'))
     else:
         flash("No picture uploaded", "danger")
         return redirect(url_for('users.profile'))
-     
-
-
-
+@users.route('/profile/reset_picture', methods=['POST'])
+@login_required
+def reset_profile_picture():
+    old_picture_path = current_user.profile_picture
+    new_picture = save_avatar(current_user.email)
+    if new_picture is None:
+        flash("Failed to reset profile picture. Please try again.", "danger")
+        return redirect(url_for('users.profile'))
+    else:
+        delete_old_avatar(old_picture_path)
+        current_user.profile_picture = new_picture
+        db.session.commit()
+        flash("Your profile picture has been reset successfully!", "success")
+        return redirect(url_for('users.profile'))

@@ -3,6 +3,7 @@ import secrets
 from PIL import Image
 from werkzeug.utils import secure_filename
 from flask import current_app,flash
+from flask_login import current_user
 import requests
 
 def save_avatar(email):
@@ -14,7 +15,8 @@ def save_avatar(email):
         folder_path = os.path.join(base_path, "static", "avatars")
         os.makedirs(folder_path, exist_ok=True)
         print(response.status_code)
-        filename = secure_filename(email) + ".svg"
+        random_hex = secrets.token_hex(4) 
+        filename = f"{random_hex}_{secure_filename(email)}.svg"
         file_path = os.path.join(folder_path, filename)
 
         with open(file_path, "wb") as f:
@@ -24,11 +26,11 @@ def save_avatar(email):
         return f"/avatars/{filename}"  # Relative path for HTML use
     else:
         flash("Failed to save avatar. Using default avatar.", "error")
-        return "/avatars/test.webp"  # Fallback avatar
+        return "/avatars/test.svg"  # Fallback avatar
 
 def delete_old_avatar(old_picture_path):
     if not isinstance(old_picture_path, str):
-        return  # Ignore if it's not a string
+        return current_user.profile_picture  # Ignore if it's not a string
 
     if "dicebear.com" in old_picture_path or "default" in old_picture_path:
         return  # Don't delete remote or default images
@@ -45,6 +47,9 @@ def save_picture(new_picture_file,email):
     # Save new image
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(new_picture_file.filename)
+    if f_ext.lower() not in ['.jpg', '.jpeg', '.png']:
+        flash("Invalid image format. Please upload a JPG, PNG, or GIF.", "error")
+        return 
     picture_fn = secure_filename(email) + "_" + random_hex + f_ext
     picture_path = os.path.join(current_app.root_path, 'static/avatars', picture_fn)
     os.makedirs(os.path.dirname(picture_path), exist_ok=True)

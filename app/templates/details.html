@@ -3,5 +3,22 @@
     <h5>{{ user.username }}</h5>
     <p>Email: {{ user.email }}</p>
     <p>Profile Picture: {{ user.profile_picture }}</p>
+    <p>Posts:</p>
+    <ul class="posts">
+      {% for post in user.posts %}
+  <div class="post">
+    <h5>{{ post.title }}</h5>
+    <p>Content: {{ post.content }}</p>
+    <p>Author: {{ post.author.username }}</p>
+    <p>Tags: {{ post.tags }}</p>
+    <p>Date Posted: {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+  </div>
+    </ul>
+{% endfor %}
+  
   </div>
 {% endfor %}
+
+<form action="{{ url_for('posts.delete_post') }}" method="POST">
+  <button type="submit" class="btn btn-warning">Click Me</button>
+</form>
