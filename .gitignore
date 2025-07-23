@@ -6,5 +6,5 @@ __pycache__/
 instance/
 app/static/avatars/*
 
-templates/details.html
+app/templates/details.html
 
