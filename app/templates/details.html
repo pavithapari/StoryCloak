@@ -1,0 +1,7 @@
+{% for user in users %}
+  <div class="user">
+    <h5>{{ user.username }}</h5>
+    <p>Email: {{ user.email }}</p>
+    <p>Profile Picture: {{ user.profile_picture }}</p>
+  </div>
+{% endfor %}

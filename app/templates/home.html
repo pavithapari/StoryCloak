@@ -84,10 +84,11 @@
       <li><a href="#!" class="sidebar-link"><i class="bi bi-clock-history me-2"></i>Latest Posts</a></li>
       <li><strong><i class="bi bi-folder me-2"></i>Categories</strong></li>
       <ul class="ps-3">
-        <li><a href="#!" class="sidebar-link text-dark">😂 Humours</a></li>
-        <li><a href="#!" class="sidebar-link text-dark">💡 Tips</a></li>
-        <li><a href="#!" class="sidebar-link text-dark">📝 Reviews</a></li>
-        <li><a href="#!" class="sidebar-link text-dark">👤 Personal</a></li>
+        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-emoji-laughing"></i> Humours</a></li>
+        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-emoji-smile"></i> Tips</a></li>
+        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-pencil-square"></i> Reviews</a></li>
+        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-heart me-2"></i>Personal</a></li>
+        <li><a href="{{ url_for('users.profile') }}" class="sidebar-link text-dark"><i class="bi bi-person me-2"></i>Profile</a></li>
       </ul>
     </ul>
   </div>
@@ -113,10 +114,13 @@
           <li class="list-group-item">
             <strong><i class="bi bi-folder"></i> Categories</strong>
             <ul class="list-unstyled mt-2 ps-3">
-              <li class="sidebar-link"><a href="#!" class="text-decoration-none text-dark">😂 Humours</a></li>
-              <li class="sidebar-link"><a href="#!" class="text-decoration-none text-dark">💡 Tips</a></li>
-              <li class="sidebar-link"><a href="#!" class="text-decoration-none text-dark">📝 Reviews</a></li>
-              <li class="sidebar-link"><a href="#!" class="text-decoration-none text-dark">👤 Personal</a></li>
+        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-emoji-laughing"></i> Humours</a></li>
+        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-emoji-smile"></i> Tips</a></li>
+        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-hand-thumbs-up"></i> Reviews</a></li>
+        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-heart me-2"></i>Personal</a></li>
+        <li><a href="{{ url_for('users.profile') }}" class="sidebar-link text-dark"><i class="bi bi-person me-2"></i>Profile</a></li>
+
+
             </ul>
           </li>
         </ul>
@@ -125,7 +129,7 @@
 
     <!-- Articles Section -->
     <main class="col-12 col-lg-9 mt-4">
-      {% for i in range(10) %}
+      {% for post in posts %}
       <article class="mb-4">
     <div class="card shadow-sm mb-4" style="max-width: 100%;">
         <div class="card-body">
@@ -133,22 +137,22 @@
     <!-- USER INFO & CATEGORY -->
     <div class="d-flex align-items-center justify-content-between mb-3">
       <div class="d-flex align-items-center">
-        <img src="{{url_for('static', filename='images/test.webp')}}"
-             alt="avatar" class="rounded-circle me-2" width="40" height="40">
-        <div>
-          <h6 class="mb-0">pavitha</h6>
-          <small class="text-muted">10-11-2023</small>
-        </div>
+      <img src="{{ url_for('static', filename=post.author.profile_picture) }}"
+         alt="avatar" class="rounded-circle me-2" width="40" height="40">
+      <div>
+        <h6 class="mb-0"><a href="{{ url_for('posts.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></h6>
+        <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
       </div>
-      <span class="badge bg-primary">humor</span>
+      </div>
+      <span class="badge bg-primary">{{ post.category }}</span>
     </div>
 
     <!-- TITLE -->
-    <h5 class="card-title">Perfect day</h5>
+    <h5 class="card-title">{{ post.title }}</h5>
 
     <!-- CONTENT WITH READ MORE -->
     <div class="card-text" style="max-height: 100px; overflow: hidden; position: relative;">
-      <p class="text-truncate-ellipsis">Lorem ipsum dolor sit amet consectetur adipisicing elit. Error cumque mollitia rerum eos natus dignissimos sunt accusantium nostrum repellat ipsum. Nisi molestiae fugiat sed corrupti commodi aspernatur illum atque aperiam?</p>
+      <p class="text-truncate-ellipsis">{{ post.content }}</p>
       <div class="text-end mt-2">
         <a href="" class="btn btn-sm btn-outline-primary">
           Read More

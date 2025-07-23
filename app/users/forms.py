@@ -30,4 +30,11 @@ class SignupForm(FlaskForm):
     
     submit=SubmitField('Sign Up')
 
+class UserForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    profile_picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'webp'])])
+    submit_profile = SubmitField('Update Profile')
+    submit = SubmitField('Submit')
+
 
