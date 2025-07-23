@@ -1,0 +1,9 @@
+# Normalize all files
+* text=auto
+
+# Use LF for Python and config files
+*.py text eol=lf
+*.ini text eol=lf
+*.mako text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
