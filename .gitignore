@@ -4,6 +4,7 @@ __pycache__/
 .env
 *.log
 instance/
-static/avatars/*
+app/static/avatars/*
+
 templates/details.html
 
