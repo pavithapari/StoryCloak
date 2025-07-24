@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     profile_picture = db.Column(db.String(20), nullable=False, default='static/avatars/test.webp')
     date_joined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy=True)
+    likes = db.relationship('Like', back_populates='user', cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"{self.username}({self.email} {self.profile_picture})"
@@ -29,6 +30,19 @@ class Post(db.Model,UserMixin):
     visibility=db.Column(db.String(10), nullable=False, default='private')
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  
+    likes = db.relationship('Like', back_populates='user', cascade="all, delete-orphan")
+
+class Like(db.Model):
+    __tablename__ = 'like_table'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id')
+    )
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User', back_populates='likes')
+    post = db.relationship('Post', back_populates='likes')
+
     
 
 @login_manager.user_loader

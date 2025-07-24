@@ -152,9 +152,11 @@
 
     <!-- CONTENT WITH READ MORE -->
     <div class="card-text" style="max-height: 100px; overflow: hidden; position: relative;">
-      <p class="text-truncate-ellipsis">{{ post.content }}</p>
+      <div class="card-text" style="max-height: 50em; overflow: hidden; position: relative;">
+        {{ post.content[0:50] }}...
+      </div>
       <div class="text-end mt-2">
-        <a href="" class="btn btn-sm btn-outline-primary">
+        <a href="{{ url_for('posts.readmore', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
           Read More
         </a>
             </div>

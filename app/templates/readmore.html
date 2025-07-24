@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Read More - {{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="text-primary">{{ post.title }}</h1>
+  <p class="text-muted">Posted by {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+  <hr>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <p>{{ post.content }}</p>
+    </div>
+  </div>
+
+  <div class="text-end">
+    <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a>
+  </div>
+  {% endblock %}
