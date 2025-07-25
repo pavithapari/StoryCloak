@@ -1,0 +1,56 @@
+<article class="mb-4">
+    <div class="card shadow-sm mb-4 outline-{{ post.tags }}" style="max-width: 100%; position: relative;">
+      <div class="card-body">
+      <span class="badge bg-{{ post.tags }}" style="position: absolute; top: 10px; right: 10px;"> {{ post.tags }} </span>
+    <!-- USER INFO & CATEGORY -->
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename=post.author.profile_picture) }}" 
+
+             alt="avatar" class="rounded-circle me-2" width="40" height="40">
+        <div>
+          <h6 class="mb-0"><a href="{{ url_for('posts.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></h6>
+          <small>{{ post.date_posted.strftime('%y-%m-%d') }}</small>
+        </div>
+        <br>
+      </div>
+      
+    </div>
+
+    <!-- TITLE -->
+    <h5 class="card-title">{{ post.title }}</h5>
+
+    <!-- CONTENT WITH READ MORE -->
+    <div class="card-text" style="max-height: 100px; overflow: hidden; position: relative;">
+      <p class="text-truncate-ellipsis">{{ post.content[0:25] }}...</p>
+      <div class="text-end mt-2">
+        <a href="{{ url_for('posts.readmore', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
+          Read More
+        </a>
+            </div>
+            </div>
+        </div>
+                  <div class="card-footer d-flex justify-content-between align-items-center bg-light">
+            <small class="text-muted">
+              <i class="bi bi-calendar3"></i> 7 Feb 2023
+            </small>
+            <div>
+            <button class="like-button" data-post-id="{{ post.id }}">
+              ❤️ <span class="like-count">{{ post.likes | length }}</span>
+            </button>
+
+
+              <button class="btn btn-sm btn-outline-secondary me-2">
+                <i class="bi bi-link-45deg"></i> Share
+              </button>
+              <button class="btn btn-sm btn-outline-info">
+                <i class="bi bi-stars"></i> Related
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+{% block like_script %}
+{% endblock %}
+

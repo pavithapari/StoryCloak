@@ -63,6 +63,30 @@
       font-size: 1.15rem;
     }
   }
+
+.outline-humor     { border-color: #e7c367c6; }
+.outline-tips      { border-color: #62df64c6; }
+.outline-reviews   { border-color: #451919c6; }
+.outline-personal  { border-color: #c54faac6; }
+.outline-none      { border-color: #6c757d; }
+.outline-tech      { border-color: hsl(241, 81%, 25%); }
+
+.bg-humor     { background-color: #e7c367c6; }
+.bg-tips      { background-color: #62df64c6; }
+.bg-reviews   { background-color: #451919c6; }
+.bg-personal  { background-color: #c54faac6; }
+.bg-none      { background-color: #6c757d; }
+.bg-tech      { background-color: hsl(241, 81%, 25%); }
+article[class^="outline-"],
+.card[class^="outline-"] {
+  border-left: 6px solid;
+  padding-left: 1rem;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: border-color 0.3s ease;
+}
+
 </style>
 
 <!-- Mobile Hamburger Menu -->
@@ -94,18 +118,18 @@
       <strong class="text-dark mt-3 d-block"><i class="bi bi-folder me-2"></i> Categories</strong>
 
       <!-- categories as a tags -->
-      <a href="{{ url_for('posts.humor') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.humor') }}" class="btn btn-sm btn-outline-humor bg-humor w-100 text-start mb-2">
         <i class="bi bi-emoji-laughing me-2"></i> Humours
       </a>
-      <a href="{{ url_for('posts.tips') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.tips') }}" class="btn btn-sm btn-outline-tips bg-tips w-100 text-start mb-2">
         <i class="bi bi-emoji-smile me-2"></i> Tips
       </a>
 
       <!-- categories as buttons -->
-      <a href="{{ url_for('posts.reviews') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.reviews') }}" class="btn btn-sm btn-outline-reviews bg-reviews w-100 text-start mb-2">
         <i class="bi bi-hand-thumbs-up me-2"></i> Reviews
       </a>
-      <a href="{{ url_for('posts.personal') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.personal') }}" class="btn btn-sm btn-outline-personal bg-personal w-100 text-start mb-2">
         <i class="bi bi-heart me-2"></i> Personal
       </a>
 
@@ -143,18 +167,18 @@
       <strong class="text-dark mt-3 d-block"><i class="bi bi-folder me-2"></i> Categories</strong>
 
       <!-- categories as a tags -->
-      <a href="{{ url_for('posts.humor') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.humor') }}" class="btn btn-sm btn-outline-humor bg-humor w-100 text-start mb-2">
         <i class="bi bi-emoji-laughing me-2"></i> Humours
       </a>
-      <a href="{{ url_for('posts.tips') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.tips') }}" class="btn btn-sm btn-outline-tips bg-tips w-100 text-start mb-2">
         <i class="bi bi-emoji-smile me-2"></i> Tips
       </a>
 
       <!-- categories as buttons -->
-      <a href="{{ url_for('posts.reviews') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2 ">
+      <a href="{{ url_for('posts.reviews') }}" class="btn btn-sm btn-outline-reviews bg-reviews w-100 text-start mb-2 ">
         <i class="bi bi-hand-thumbs-up me-2"></i> Reviews
       </a>
-      <a href="{{ url_for('posts.personal') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.personal') }}" class="btn btn-sm btn-outline-personal bg-personal w-100 text-start mb-2">
         <i class="bi bi-heart me-2"></i> Personal
       </a>
 
@@ -171,57 +195,13 @@
     <main class="col-12 col-lg-9 mt-4">
       {% for post in posts %}
       {% set liked = post.likes | selectattr("user_id", "equalto", current_user.id) | list | length > 0 %}
+      {% include "_post_card.html" %}
+      
+{% block like_script %}
+{% endblock %}
 
-      <article class="mb-4">
-    <div class="card shadow-sm mb-4" style="max-width: 100%;">
-        <div class="card-body">
 
-    <!-- USER INFO & CATEGORY -->
-    <div class="d-flex align-items-center justify-content-between mb-3">
-      <div class="d-flex align-items-center">
-      <img src="{{ url_for('static', filename=post.author.profile_picture) }}"
-         alt="avatar" class="rounded-circle me-2" width="40" height="40">
-      <div>
-        <h6 class="mb-0"><a href="{{ url_for('posts.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></h6>
-        <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
-      </div>
-      </div>
-      <span class="badge bg-primary">{{ post.tags }}</span>
-    </div>
 
-    <!-- TITLE -->
-    <h5 class="card-title">{{ post.title }}</h5>
-
-    <!-- CONTENT WITH READ MORE -->
-    <div class="card-text" style="max-height: 100px; overflow: hidden; position: relative;">
-      <div class="card-text" style="max-height: 50em; overflow: hidden; position: relative;">
-        {{ post.content[0:50] }}...
-      </div>
-      <div class="text-end mt-2">
-        <a href="{{ url_for('posts.readmore', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
-          Read More
-        </a>
-            </div>
-            </div>
-        </div>
-                  <div class="card-footer d-flex justify-content-between align-items-center bg-light">
-            <small class="text-muted">
-              <i class="bi bi-calendar3"></i> 7 Feb 2023
-            </small>
-            <div class="d-flex align-items-center ">
-              <button class="like-button me-2" data-toggle="tooltip" data-placement="bottom" title="Like the post" data-post-id="{{ post.id }}">
-                ❤️ <span class="like-count">{{ post.likes|length }}</span>
-              </button>
-              <button class="btn btn-sm btn-outline-secondary me-2">
-                <i class="bi bi-link-45deg"></i> Share
-              </button>
-              <button class="btn btn-sm btn-outline-info">
-                <i class="bi bi-stars"></i> Related
-              </button>
-            </div>
-          </div>
-        </div>
-      </article>
       {% endfor %}
     </main>
 

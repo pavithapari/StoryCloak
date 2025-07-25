@@ -61,59 +61,18 @@
   </div>
 </div>
 
+<div class="d-flex justify-content-center">
+  <main class="col-12 col-lg-9 mt-4">
+    {% for post in posts %}
+    {% set liked = post.likes | selectattr("user_id", "equalto", current_user.id) | list | length > 0 %}
+    {% include "_post_card.html" %}
 
-<main class="col-12 col-lg-9 mt-4">
-      {% for post in posts %}
-      <article class="mb-4">
-    <div class="card shadow-sm mb-4" style="max-width: 100%;">
-        <div class="card-body">
+{% block like_script %}
+{% endblock %}
 
-    <!-- USER INFO & CATEGORY -->
-    <div class="d-flex align-items-center justify-content-between mb-3">
-      <div class="d-flex align-items-center">
-      <img src="{{ url_for('static', filename=user.profile_picture) }}" 
 
-             alt="avatar" class="rounded-circle me-2" width="40" height="40">
-        <div>
-          <h6 class="mb-0">{{post.author.username}}</h6>
-          <small class="text-muted">{{post.date_posted}}</small>
-        </div>
-      </div>
-      <span class="badge bg-primary">{{ post.tags }}</span>
-    </div>
 
-    <!-- TITLE -->
-    <h5 class="card-title">{{ post.title }}</h5>
-
-    <!-- CONTENT WITH READ MORE -->
-    <div class="card-text" style="max-height: 100px; overflow: hidden; position: relative;">
-      <p class="text-truncate-ellipsis">{{ post.content[:15] }}...</p>
-      <div class="text-end mt-2">
-        <a href="{{ url_for('posts.readmore', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
-          Read More
-        </a>
-            </div>
-            </div>
-        </div>
-                  <div class="card-footer d-flex justify-content-between align-items-center bg-light">
-            <small class="text-muted">
-              <i class="bi bi-calendar3"></i> 7 Feb 2023
-            </small>
-            <div>
-              <button class="like-button me-2" data-post-id="{{ post.id }}">
-                ❤️ <span class="like-count">{{ post.likes|length }}</span>
-              </button>
-              <button class="btn btn-sm btn-outline-secondary me-2">
-                <i class="bi bi-link-45deg"></i> Share
-              </button>
-              <button class="btn btn-sm btn-outline-info">
-                <i class="bi bi-stars"></i> Related
-              </button>
-            </div>
-          </div>
-        </div>
-      </article>
       {% endfor %}
     </main>
-
+</div>
 {% endblock %}

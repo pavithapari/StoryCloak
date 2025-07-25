@@ -3,7 +3,7 @@ __pycache__/
 *.pyc
 .env
 *.log
-instance/
+
 app/static/avatars/*
 
 app/templates/details.html
