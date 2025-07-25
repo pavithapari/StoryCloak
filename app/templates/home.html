@@ -94,20 +94,20 @@
       <strong class="text-dark mt-3 d-block"><i class="bi bi-folder me-2"></i> Categories</strong>
 
       <!-- categories as a tags -->
-      <a href="#!" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.humor') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
         <i class="bi bi-emoji-laughing me-2"></i> Humours
       </a>
-      <a href="#!" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.tips') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
         <i class="bi bi-emoji-smile me-2"></i> Tips
       </a>
 
       <!-- categories as buttons -->
-      <button class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.reviews') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
         <i class="bi bi-hand-thumbs-up me-2"></i> Reviews
-      </button>
-      <button class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      </a>
+      <a href="{{ url_for('posts.personal') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
         <i class="bi bi-heart me-2"></i> Personal
-      </button>
+      </a>
 
       <!-- profile as an a tag button -->
       <a href="{{ url_for('users.profile') }}" class="btn btn-sm btn-outline-dark w-100 text-start">
@@ -143,20 +143,20 @@
       <strong class="text-dark mt-3 d-block"><i class="bi bi-folder me-2"></i> Categories</strong>
 
       <!-- categories as a tags -->
-      <a href="#!" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.humor') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
         <i class="bi bi-emoji-laughing me-2"></i> Humours
       </a>
-      <a href="#!" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.tips') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
         <i class="bi bi-emoji-smile me-2"></i> Tips
       </a>
 
       <!-- categories as buttons -->
-      <button class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      <a href="{{ url_for('posts.reviews') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2 ">
         <i class="bi bi-hand-thumbs-up me-2"></i> Reviews
-      </button>
-      <button class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+      </a>
+      <a href="{{ url_for('posts.personal') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
         <i class="bi bi-heart me-2"></i> Personal
-      </button>
+      </a>
 
       <!-- profile as an a tag button -->
       <a href="{{ url_for('users.profile') }}" class="btn btn-sm btn-outline-dark w-100 text-start">
@@ -209,11 +209,9 @@
               <i class="bi bi-calendar3"></i> 7 Feb 2023
             </small>
             <div class="d-flex align-items-center ">
-              <button class="like-button me-2" data-post-id="{{ post.id }}">
+              <button class="like-button me-2" data-toggle="tooltip" data-placement="bottom" title="Like the post" data-post-id="{{ post.id }}">
                 ❤️ <span class="like-count">{{ post.likes|length }}</span>
               </button>
-
-
               <button class="btn btn-sm btn-outline-secondary me-2">
                 <i class="bi bi-link-45deg"></i> Share
               </button>

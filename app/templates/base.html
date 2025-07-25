@@ -113,6 +113,15 @@ document.querySelectorAll('.like-button').forEach(button => {
   });
 });
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+  });
+</script>
+
 
 
 </body>

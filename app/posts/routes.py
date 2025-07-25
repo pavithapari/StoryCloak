@@ -111,3 +111,21 @@ def trending():
         .all()
     posts_only = [post for post, like_count in trending_posts]
     return render_template('home.html', posts=posts_only,user=current_user,now=datetime.now())
+
+@posts.route('/humor')
+def humor():
+    humor_posts = Post.query.filter(Post.tags.contains('humor')).order_by(Post.date_posted.desc()).all()
+    return render_template('home.html', posts=humor_posts, user=current_user, now=datetime.now())
+
+@posts.route('/tips')
+def tips():
+    tech_posts = Post.query.filter(Post.tags.contains('tips')).order_by(Post.date_posted.desc()).all()
+    return render_template('home.html', posts=tech_posts, user=current_user, now=datetime.now())
+@posts.route('/reviews')
+def reviews():
+    review_posts = Post.query.filter(Post.tags.contains('reviews')).order_by(Post.date_posted.desc()).all()
+    return render_template('home.html', posts=review_posts, user=current_user, now=datetime.now())
+@posts.route('/personal')
+def personal():
+    personal_posts = Post.query.filter(Post.tags.contains('personal')).order_by(Post.date_posted.desc()).all() 
+    return render_template('home.html', posts=personal_posts, user=current_user, now=datetime.now())
