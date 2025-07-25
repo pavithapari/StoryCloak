@@ -75,16 +75,25 @@ def edit_post(post_id):
         return redirect(url_for('posts.user_posts', username=current_user.username))
 
     form = PostForm(obj=post)
+    if request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+        form.visibility.data = post.visibility
+        form.tags.data = post.tags.split(',') if post.tags else []
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
-        post.tags = form.tags.data
+        selected_tags = request.form.getlist('tags')  # gets checkbox values from HTML
+        tags_string = ','.join(selected_tags) if selected_tags else None
+        post.tags = tags_string
+        if not post.tags:
+            post.tags = None
         post.visibility = form.visibility.data
         db.session.commit()
         flash("Your post has been updated successfully!", "success")
         return redirect(url_for('posts.readmore', post_id=post.id))
 
-    return render_template('edit_post.html', form=form, post=post)
+    return render_template('create_post.html', form=form, post=post,user=current_user, now=datetime.now(), year=datetime.now().year)
 
 @posts.route('/like/<int:post_id>', methods=['POST'])
 @login_required

@@ -65,14 +65,14 @@
   <main class="col-12 col-lg-9 mt-4">
     {% for post in posts %}
     {% set liked = post.likes | selectattr("user_id", "equalto", current_user.id) | list | length > 0 %}
+    {% set edit=True %}
     {% include "_post_card.html" %}
-
 {% block like_script %}
 {% endblock %}
-
 
 
       {% endfor %}
     </main>
 </div>
+
 {% endblock %}
