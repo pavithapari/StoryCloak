@@ -30,7 +30,7 @@ class Post(db.Model,UserMixin):
     visibility=db.Column(db.String(10), nullable=False, default='private')
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  
-    likes = db.relationship('Like', back_populates='user', cascade="all, delete-orphan")
+    likes = db.relationship('Like', back_populates='post', cascade="all, delete-orphan")
 
 class Like(db.Model):
     __tablename__ = 'like_table'

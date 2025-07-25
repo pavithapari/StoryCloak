@@ -93,6 +93,26 @@
     padding-top: 60px;
   }
 </style>
+<script>
+document.querySelectorAll('.like-button').forEach(button => {
+  button.addEventListener('click', function () {
+    const postId = this.dataset.postId;
+
+    fetch(`/like/${postId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const icon = data.status === 'liked' ? '❤️' : '🤍';
+      this.innerHTML = icon + ' <span class="like-count">' + data.likes_count + '</span>';
+    });
+  });
+});
+</script>
 
 
 </body>

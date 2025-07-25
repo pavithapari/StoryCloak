@@ -79,18 +79,42 @@
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <ul class="list-unstyled">
-      <li><a href="#!" class="sidebar-link"><i class="bi bi-graph-up me-2"></i>Trending</a></li>
-      <li><a href="#!" class="sidebar-link"><i class="bi bi-clock-history me-2"></i>Latest Posts</a></li>
-      <li><strong><i class="bi bi-folder me-2"></i>Categories</strong></li>
-      <ul class="ps-3">
-        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-emoji-laughing"></i> Humours</a></li>
-        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-emoji-smile"></i> Tips</a></li>
-        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-pencil-square"></i> Reviews</a></li>
-        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-heart me-2"></i>Personal</a></li>
-        <li><a href="{{ url_for('users.profile') }}" class="sidebar-link text-dark"><i class="bi bi-person me-2"></i>Profile</a></li>
-      </ul>
-    </ul>
+    <div class="list-group p-3">
+
+      <!-- a tag styled as a button -->
+      <a href="{{ url_for('posts.trending') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
+        <i class="bi bi-graph-up me-2"></i> Trending
+      </a>
+
+         <a href="{{ url_for('posts.latest_posts') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
+        <i class="bi bi-graph-up me-2"></i> Latest
+      </a>
+
+
+      <strong class="text-dark mt-3 d-block"><i class="bi bi-folder me-2"></i> Categories</strong>
+
+      <!-- categories as a tags -->
+      <a href="#!" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-emoji-laughing me-2"></i> Humours
+      </a>
+      <a href="#!" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-emoji-smile me-2"></i> Tips
+      </a>
+
+      <!-- categories as buttons -->
+      <button class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-hand-thumbs-up me-2"></i> Reviews
+      </button>
+      <button class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-heart me-2"></i> Personal
+      </button>
+
+      <!-- profile as an a tag button -->
+      <a href="{{ url_for('users.profile') }}" class="btn btn-sm btn-outline-dark w-100 text-start">
+        <i class="bi bi-person me-2"></i> Profile
+      </a>
+
+    </div>
   </div>
 </div>
 
@@ -100,36 +124,54 @@
 
     <!-- Desktop Sidebar -->
     <aside class="col-lg-3 d-none d-lg-block">
-      <div class="card sidebar-card shadow-sm border-primary-subtle mb-4">
-        <div class="card-header bg-primary text-white">
-          <strong>Explore</strong>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item sidebar-link">
-            <a href="#!" class="text-decoration-none text-primary"><i class="bi bi-graph-up"></i> Trending</a>
-          </li>
-          <li class="list-group-item sidebar-link">
-            <a href="#!" class="text-decoration-none text-primary"><i class="bi bi-clock-history"></i> Latest Posts</a>
-          </li>
-          <li class="list-group-item">
-            <strong><i class="bi bi-folder"></i> Categories</strong>
-            <ul class="list-unstyled mt-2 ps-3">
-        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-emoji-laughing"></i> Humours</a></li>
-        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-emoji-smile"></i> Tips</a></li>
-        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-hand-thumbs-up"></i> Reviews</a></li>
-        <li><a href="#!" class="sidebar-link text-dark"><i class="bi bi-heart me-2"></i>Personal</a></li>
-        <li><a href="{{ url_for('users.profile') }}" class="sidebar-link text-dark"><i class="bi bi-person me-2"></i>Profile</a></li>
+  <div class="card sidebar-card shadow-sm border-primary-subtle mb-4">
+    <div class="card-header bg-primary text-white">
+      <strong>Explore</strong>
+    </div>
+    <div class="list-group p-3">
+
+      <!-- a tag styled as a button -->
+      <a href="{{ url_for('posts.trending') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
+        <i class="bi bi-graph-up me-2"></i> Trending
+      </a>
+
+         <a href="{{ url_for('posts.latest_posts') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
+        <i class="bi bi-graph-up me-2"></i> Latest
+      </a>
 
 
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </aside>
+      <strong class="text-dark mt-3 d-block"><i class="bi bi-folder me-2"></i> Categories</strong>
+
+      <!-- categories as a tags -->
+      <a href="#!" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-emoji-laughing me-2"></i> Humours
+      </a>
+      <a href="#!" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-emoji-smile me-2"></i> Tips
+      </a>
+
+      <!-- categories as buttons -->
+      <button class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-hand-thumbs-up me-2"></i> Reviews
+      </button>
+      <button class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-heart me-2"></i> Personal
+      </button>
+
+      <!-- profile as an a tag button -->
+      <a href="{{ url_for('users.profile') }}" class="btn btn-sm btn-outline-dark w-100 text-start">
+        <i class="bi bi-person me-2"></i> Profile
+      </a>
+
+    </div>
+  </div>
+</aside>
 
     <!-- Articles Section -->
     <main class="col-12 col-lg-9 mt-4">
       {% for post in posts %}
+      {% set liked = post.likes | selectattr("user_id", "equalto", current_user.id) | list | length > 0 %}
+
       <article class="mb-4">
     <div class="card shadow-sm mb-4" style="max-width: 100%;">
         <div class="card-body">
@@ -166,10 +208,12 @@
             <small class="text-muted">
               <i class="bi bi-calendar3"></i> 7 Feb 2023
             </small>
-            <div>
-              <button class="btn btn-sm btn-outline-primary me-2">
-                <i class="bi bi-hand-thumbs-up"></i> Upvote
+            <div class="d-flex align-items-center ">
+              <button class="like-button me-2" data-post-id="{{ post.id }}">
+                ❤️ <span class="like-count">{{ post.likes|length }}</span>
               </button>
+
+
               <button class="btn btn-sm btn-outline-secondary me-2">
                 <i class="bi bi-link-45deg"></i> Share
               </button>
@@ -182,6 +226,7 @@
       </article>
       {% endfor %}
     </main>
+
 
   </div>
 </div>

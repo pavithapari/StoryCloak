@@ -50,8 +50,8 @@
               <i class="bi bi-calendar3"></i> 7 Feb 2023
             </small>
             <div>
-              <button class="btn btn-sm btn-outline-primary me-2">
-                <i class="bi bi-hand-thumbs-up"></i> Upvote
+              <button class="like-button me-2" data-post-id="{{ post.id }}">
+                ❤️ <span class="like-count">{{ post.likes|length }}</span>
               </button>
               <button class="btn btn-sm btn-outline-secondary me-2">
                 <i class="bi bi-link-45deg"></i> Share
