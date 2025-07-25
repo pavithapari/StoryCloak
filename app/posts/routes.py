@@ -129,3 +129,7 @@ def reviews():
 def personal():
     personal_posts = Post.query.filter(Post.tags.contains('personal')).order_by(Post.date_posted.desc()).all() 
     return render_template('home.html', posts=personal_posts, user=current_user, now=datetime.now())
+@posts.route('/tech')
+def tech():
+    tech = Post.query.filter(Post.tags.contains('tech')).order_by(Post.date_posted.desc()).all() 
+    return render_template('home.html', posts=tech, user=current_user, now=datetime.now())

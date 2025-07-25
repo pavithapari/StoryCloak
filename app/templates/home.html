@@ -69,14 +69,14 @@
 .outline-reviews   { border-color: #451919c6; }
 .outline-personal  { border-color: #c54faac6; }
 .outline-none      { border-color: #6c757d; }
-.outline-tech      { border-color: hsl(241, 81%, 25%); }
+.outline-tech      { border-color: hsl(241, 83%, 48%); }
 
 .bg-humor     { background-color: #e7c367c6; }
 .bg-tips      { background-color: #62df64c6; }
 .bg-reviews   { background-color: #451919c6; }
 .bg-personal  { background-color: #c54faac6; }
 .bg-none      { background-color: #6c757d; }
-.bg-tech      { background-color: hsl(241, 81%, 25%); }
+.bg-tech      { background-color: hsl(241, 86%, 55%); }
 article[class^="outline-"],
 .card[class^="outline-"] {
   border-left: 6px solid;
@@ -107,11 +107,11 @@ article[class^="outline-"],
 
       <!-- a tag styled as a button -->
       <a href="{{ url_for('posts.trending') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
-        <i class="bi bi-graph-up me-2"></i> Trending
+        <i class="bi bi-graph-up me-2"></i> <b>Trending</b>
       </a>
 
          <a href="{{ url_for('posts.latest_posts') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
-        <i class="bi bi-graph-up me-2"></i> Latest
+        <i class="bi bi-graph-up me-2"></i> <b>Latest</b>
       </a>
 
 
@@ -119,23 +119,26 @@ article[class^="outline-"],
 
       <!-- categories as a tags -->
       <a href="{{ url_for('posts.humor') }}" class="btn btn-sm btn-outline-humor bg-humor w-100 text-start mb-2">
-        <i class="bi bi-emoji-laughing me-2"></i> Humours
+        <i class="bi bi-emoji-laughing me-2"></i> <b>Humours</b>
       </a>
       <a href="{{ url_for('posts.tips') }}" class="btn btn-sm btn-outline-tips bg-tips w-100 text-start mb-2">
-        <i class="bi bi-emoji-smile me-2"></i> Tips
+        <i class="bi bi-emoji-smile me-2"></i> <b>Tips</b>
       </a>
 
       <!-- categories as buttons -->
       <a href="{{ url_for('posts.reviews') }}" class="btn btn-sm btn-outline-reviews bg-reviews w-100 text-start mb-2">
-        <i class="bi bi-hand-thumbs-up me-2"></i> Reviews
+        <i class="bi bi-hand-thumbs-up me-2"></i> <b>Reviews</b>
       </a>
       <a href="{{ url_for('posts.personal') }}" class="btn btn-sm btn-outline-personal bg-personal w-100 text-start mb-2">
-        <i class="bi bi-heart me-2"></i> Personal
+        <i class="bi bi-heart me-2"></i> <b>Personal</b>
       </a>
+      <a href="{{ url_for('posts.tech') }}" class="btn btn-sm btn-outline-tech bg-tech w-100 text-start mb-2">
+        <i class="bi bi-heart me-2"></i> <b>Tech</b>
+      </a>     
 
       <!-- profile as an a tag button -->
       <a href="{{ url_for('users.profile') }}" class="btn btn-sm btn-outline-dark w-100 text-start">
-        <i class="bi bi-person me-2"></i> Profile
+        <i class="bi bi-person me-2"></i> <b>Tech</b>
       </a>
 
     </div>
@@ -156,35 +159,39 @@ article[class^="outline-"],
 
       <!-- a tag styled as a button -->
       <a href="{{ url_for('posts.trending') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
-        <i class="bi bi-graph-up me-2"></i> Trending
+        <i class="bi bi-graph-up me-2"></i> <b>Trending</b>
       </a>
 
          <a href="{{ url_for('posts.latest_posts') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
-        <i class="bi bi-graph-up me-2"></i> Latest
+        <i class="bi bi-graph-up me-2"></i> <b>Latest</b>
       </a>
 
 
       <strong class="text-dark mt-3 d-block"><i class="bi bi-folder me-2"></i> Categories</strong>
 
       <!-- categories as a tags -->
-      <a href="{{ url_for('posts.humor') }}" class="btn btn-sm btn-outline-humor bg-humor w-100 text-start mb-2">
-        <i class="bi bi-emoji-laughing me-2"></i> Humours
+      <a href="{{ url_for('posts.humor') }}" class="btn btn-sm btn-outline-humor bg-humor w-100 text-start mb-2 ">
+        <i class="bi bi-emoji-laughing me-2"></i> <b>Humours</b>
       </a>
-      <a href="{{ url_for('posts.tips') }}" class="btn btn-sm btn-outline-tips bg-tips w-100 text-start mb-2">
-        <i class="bi bi-emoji-smile me-2"></i> Tips
+      <a href="{{ url_for('posts.tips') }}" class="btn btn-sm btn-outline-tips bg-tips w-100 text-start  mb-2">
+        <i class="bi bi-emoji-smile me-2"></i> <b>Tips</b>
       </a>
 
       <!-- categories as buttons -->
-      <a href="{{ url_for('posts.reviews') }}" class="btn btn-sm btn-outline-reviews bg-reviews w-100 text-start mb-2 ">
-        <i class="bi bi-hand-thumbs-up me-2"></i> Reviews
+      <a href="{{ url_for('posts.reviews') }}" class="btn btn-sm btn-outline-reviews bg-reviews w-100  text-start mb-2 ">
+        <i class="bi bi-hand-thumbs-up me-2"></i> <b>Reviews</b>
       </a>
-      <a href="{{ url_for('posts.personal') }}" class="btn btn-sm btn-outline-personal bg-personal w-100 text-start mb-2">
-        <i class="bi bi-heart me-2"></i> Personal
+      <a href="{{ url_for('posts.personal') }}" class="btn btn-sm btn-outline-personal bg-personal w-100 text-start   mb-2">
+        <i class="bi bi-heart me-2"></i> <b>Personal</b>
       </a>
+
+      <a href="{{ url_for('posts.tech') }}" class="btn btn-sm btn-outline-tech bg-tech w-100 text-start mb-2">
+        <i class="bi bi-heart me-2"></i> <b>Tech</b>
+      </a>  
 
       <!-- profile as an a tag button -->
       <a href="{{ url_for('users.profile') }}" class="btn btn-sm btn-outline-dark w-100 text-start">
-        <i class="bi bi-person me-2"></i> Profile
+        <i class="bi bi-person me-2"></i> <b>Profile</b>
       </a>
 
     </div>
