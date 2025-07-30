@@ -133,12 +133,17 @@ article[class^="outline-"],
         <i class="bi bi-heart me-2"></i> <b>Personal</b>
       </a>
       <a href="{{ url_for('posts.tech') }}" class="btn btn-sm btn-outline-tech bg-tech w-100 text-start mb-2">
-        <i class="bi bi-heart me-2"></i> <b>Tech</b>
-      </a>     
-
+        <i class="bi bi-cpu me-2"></i> <b>Tech</b>
+      </a>
+      <a href="{{ url_for('posts.none') }}" class="btn btn-sm btn-outline-none bg-none w-100 text-start mb-2">
+        <i class="bi bi-question-circle me-2"></i> <b>None</b>
+      </a>
+      <a href="{{ url_for('posts.all') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-list-ul me-2"></i> <b>All Posts</b>
+      </a> 
       <!-- profile as an a tag button -->
       <a href="{{ url_for('users.profile') }}" class="btn btn-sm btn-outline-dark w-100 text-start">
-        <i class="bi bi-person me-2"></i> <b>Tech</b>
+        <i class="bi bi-person me-2"></i> <b>Profile</b>
       </a>
 
     </div>
@@ -187,7 +192,13 @@ article[class^="outline-"],
 
       <a href="{{ url_for('posts.tech') }}" class="btn btn-sm btn-outline-tech bg-tech w-100 text-start mb-2">
         <i class="bi bi-heart me-2"></i> <b>Tech</b>
-      </a>  
+      </a> 
+      <a href="{{ url_for('posts.none') }}" class="btn btn-sm btn-outline-none bg-none w-100 text-start mb-2">
+        <i class="bi bi-question-circle me-2"></i> <b>None</b>
+      </a>
+      <a href="{{ url_for('posts.all') }}" class="btn btn-sm btn-outline-secondary w-100 text-start mb-2">
+        <i class="bi bi-list-ul me-2"></i> <b>All Posts</b>
+      </a> 
 
       <!-- profile as an a tag button -->
       <a href="{{ url_for('users.profile') }}" class="btn btn-sm btn-outline-dark w-100 text-start">

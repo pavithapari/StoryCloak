@@ -79,7 +79,7 @@ def edit_post(post_id):
         form.title.data = post.title
         form.content.data = post.content
         form.visibility.data = post.visibility
-        form.tags.data = post.tags.split(',') if post.tags else []
+        
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
@@ -142,3 +142,13 @@ def personal():
 def tech():
     tech = Post.query.filter(Post.tags.contains('tech')).order_by(Post.date_posted.desc()).all() 
     return render_template('home.html', posts=tech, user=current_user, now=datetime.now())
+
+@posts.route('/none')
+def none():
+    none_posts = Post.query.filter(Post.tags.is_(None)).order_by(Post.date_posted.desc()).all() 
+    return render_template('home.html', posts=none_posts, user=current_user, now=datetime.now())
+
+@posts.route('/all')
+def all():
+    all_posts = Post.query.order_by(Post.date_posted.desc()).all()
+    return render_template('home.html', posts=all_posts, user=current_user, now=datetime.now())
