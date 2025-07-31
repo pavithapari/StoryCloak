@@ -4,7 +4,7 @@ from app import db
 from flask_login import current_user,login_required
 from app.posts.forms import PostForm
 posts = Blueprint('posts', __name__)
-from app.models import Post,User,Like
+from app.models import Post,User,Like,PrivateNote
 from sqlalchemy import func
 
 
@@ -15,18 +15,29 @@ def create_post():
     if form.validate_on_submit():
         selected_tags = request.form.getlist('tags')  # gets checkbox values from HTML
         tags_string = ','.join(selected_tags) if selected_tags else None
-
-        post = Post(
-            title=form.title.data,
-            content=form.content.data,
-            tags=tags_string,
-            visibility=form.visibility.data,
-            author=current_user
-        )
-        db.session.add(post)
-        db.session.commit()
-        flash("Your post is uploaded successfully!", "success")
-        return redirect(url_for('main.home'))
+        if form.visibility.data == 'private':
+            note = PrivateNote(
+                title=form.title.data,
+                content=form.content.data,
+                visibility=form.visibility.data,
+                user=current_user
+            )
+            db.session.add(note)
+            db.session.commit()
+            flash("Your note is saved successfully!", "success")
+            return redirect(url_for('notes.show_notes'))
+        if form.visibility.data == 'public':
+            post = Post(
+                title=form.title.data,
+                content=form.content.data,
+                tags=tags_string,
+                visibility=form.visibility.data,
+                author=current_user
+            )
+            db.session.add(post)
+            db.session.commit()
+            flash("Your post is uploaded successfully!", "success")
+            return redirect(url_for('main.home'))
 
     return render_template('create_post.html', form=form, now=datetime.now(), year=datetime.now().year, user=current_user)
 
