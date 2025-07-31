@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Read More - {{ note.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <!-- Title -->
+            <h2 class="card-title text-primary mb-3">{{ note.title }}</h2>
+
+            <!-- Metadata -->
+            <div class="mb-4">
+                <small class="text-muted d-block">
+                    Created by <strong>{{ user.username }}</strong> on {{ note.created_at.strftime('%Y-%m-%d %I:%M %p') }}
+                </small>
+                <small class="text-muted d-block">
+                    Last updated on {{ note.updated_at.strftime('%Y-%m-%d %H:%M %p') }}
+                </small>
+            </div>
+
+            <!-- Content -->
+            <div class="card-text">
+                <p>{{ note.content }}</p>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="card-footer bg-white text-end border-0">
+            <a href="{{ url_for('notes.show_notes') }}" class="btn btn-outline-primary">← Back to Notes</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
