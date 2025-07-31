@@ -1,7 +1,14 @@
 <article class="mb-4">
     <div class="card shadow-sm mb-4 outline-{{ post.tags }}" style="max-width: 100%; position: relative;">
-      <div class="card-body">
-      <span class="badge bg-{{ post.tags }}" style="position: absolute; top: 10px; right: 10px;"> {{ post.tags }} </span>
+      <div class="card-body position-relative">
+        <!-- POST TAGS -->
+        {% if post.tags %}
+        <div class="position-absolute top-0 end-0 mt-2 me-2">
+          {% for tag in post.tags.split(',') %}
+          <span class="badge bg-{{ tag.strip() }}">{{ tag.strip() }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
     <!-- USER INFO & CATEGORY -->
     <div class="d-flex align-items-center justify-content-between mb-3">
       <div class="d-flex align-items-center">
