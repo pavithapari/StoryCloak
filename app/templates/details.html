@@ -12,6 +12,7 @@
     <p>Content: {{ post.content }}</p>
     <p>Author: {{ post.author.username }}</p>
     <p>Tags: {{ post.tags }}</p>
+    <p>CAtegory: {{ post.visibility }}</p>
     <p>Date Posted: {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
     <p>Likes: {{ post.likes }}</p>
     {% for like in post.likes %}
