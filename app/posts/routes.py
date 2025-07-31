@@ -90,21 +90,37 @@ def edit_post(post_id):
         form.title.data = post.title
         form.content.data = post.content
         form.visibility.data = post.visibility
-        
-    if form.validate_on_submit():
-        post.title = form.title.data
-        post.content = form.content.data
-        selected_tags = request.form.getlist('tags')  # gets checkbox values from HTML
-        tags_string = ','.join(selected_tags) if selected_tags else None
-        post.tags = tags_string
-        if not post.tags:
-            post.tags = None
-        post.visibility = form.visibility.data
-        db.session.commit()
-        flash("Your post has been updated successfully!", "success")
-        return redirect(url_for('posts.readmore', post_id=post.id))
+        tags = post.tags.split(',') if post.tags else []
 
-    return render_template('create_post.html', form=form, post=post,user=current_user, now=datetime.now(), year=datetime.now().year)
+    if form.validate_on_submit():
+        if form.visibility.data == 'private':
+            note = PrivateNote(
+                title=form.title.data,
+                content=form.content.data,
+                visibility=form.visibility.data,
+                user=current_user
+            )
+            db.session.add(note)
+            db.session.commit()
+            db.session.delete(post)  # Delete the post after converting to note
+            db.session.commit()
+            flash("Your post has been changed into a note!", "success")
+            return redirect(url_for('notes.show_notes'))
+        
+        if form.visibility.data == 'public':
+            post.title = form.title.data
+            post.content = form.content.data
+            selected_tags = request.form.getlist('tags')  # gets checkbox values from HTML
+            tags_string = ','.join(selected_tags) if selected_tags else None
+            post.tags = tags_string
+            if not post.tags:
+                post.tags = None
+            post.visibility = form.visibility.data
+            db.session.commit()
+            flash("Your post has been updated successfully!", "success")
+            return redirect(url_for('posts.readmore', post_id=post.id))
+
+    return render_template('create_post.html', form=form, post=post,user=current_user, now=datetime.now(),selected_tags=tags)
 
 @posts.route('/like/<int:post_id>', methods=['POST'])
 @login_required

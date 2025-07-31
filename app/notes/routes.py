@@ -4,7 +4,7 @@ from flask import render_template, request,flash,redirect,url_for
 from flask_login import current_user,login_required
 from datetime import datetime
 from app.posts.forms import PostForm
-from app.models import PrivateNote
+from app.models import PrivateNote,Post
 from app import db
 
 notes = Blueprint('notes', __name__)
@@ -30,16 +30,27 @@ def delete_note(note_id):
 def edit_note(note_id):
     form= PostForm()
     note = PrivateNote.query.get(note_id)
-    if form.validate_on_submit():
-        note.title = form.title.data
-        note.content = form.content.data
-        db.session.commit()
-        flash('Note updated successfully!', 'success')
-        return redirect(url_for('notes.show_notes'))
-    elif request.method == 'GET':
+    if request.method == 'GET':
         form.title.data = note.title
         form.content.data = note.content
         form.visibility.data='private'
+    if form.validate_on_submit():
+        if form.visibility.data == 'public':
+            selected_tags = request.form.getlist('tags')  # gets checkbox values from HTML
+            tags_string = ','.join(selected_tags) if selected_tags else None
+            post=Post(title=form.title.data, content=form.content.data, author=current_user
+                      ,visibility='public',tags = tags_string)
+            db.session.add(post)
+            db.session.commit()
+            flash("Your post is uploaded successfully!", "success")
+            return redirect(url_for('main.home'))
+        if form.visibility.data=='private':
+            note.title = form.title.data
+            note.content = form.content.data
+            db.session.commit()
+            flash('Note updated successfully!', 'success')
+            return redirect(url_for('notes.show_notes'))
+
     return render_template('create_post.html', form=form, now=datetime.now(),user=current_user)
 
 @notes.route('/readmore/<int:note_id>')
