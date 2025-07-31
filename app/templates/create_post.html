@@ -56,16 +56,28 @@
     </div>
 
     <!-- Visibility -->
-    <div class="mb-4">
-      <label class="form-label">Choose Visibility</label>
-      <div class="btn-group w-100" role="group">
-        <input type="radio" class="btn-check" name="visibility" id="publicPost" value="public" checked>
-        <label class="btn btn-outline-success" for="publicPost">Post Publicly</label>
+<div class="mb-4">
+  <label class="form-label">Choose Visibility</label>
+  <div class="btn-group w-100" role="group">
+    <!-- Public Option -->
+    <input type="radio"
+           class="btn-check"
+           name="visibility"
+           id="publicPost"
+           value="public"
+           {% if form.visibility.data == 'public' %}checked{% endif %}>
+    <label class="btn btn-outline-success" for="publicPost">Post Publicly</label>
 
-        <input type="radio" class="btn-check" name="visibility" id="privateNote" value="private">
-        <label class="btn btn-outline-secondary" for="privateNote">Save as Personal Note</label>
-      </div>
-    </div>
+    <!-- Private Option -->
+    <input type="radio"
+           class="btn-check"
+           name="visibility"
+           id="privateNote"
+           value="private"
+           {% if form.visibility.data == 'private' %}checked{% endif %}>
+    <label class="btn btn-outline-secondary" for="privateNote">Save as Personal Note</label>
+  </div>
+</div>
 
     <!-- Submit Button -->
     <div class="d-grid mt-4">
