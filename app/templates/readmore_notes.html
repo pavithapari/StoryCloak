@@ -3,31 +3,30 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
-            <!-- Title -->
-            <h2 class="card-title text-primary mb-3">{{ note.title }}</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-9">
+      <!-- Title & Metadata -->
+      <div class="mb-4 text-center">
+        <h2 class="text-secondary ">{{ note.title }}</h2>
+        <p class="text-muted">
+          Created by <strong>{{ user.username }}</strong>
+          on {{ note.created_at.strftime('%Y-%m-%d %I:%M %p') }}<br>
+          Last updated on {{ note.updated_at.strftime('%Y-%m-%d %I:%M %p') }}
+        </p>
+      </div>
 
-            <!-- Metadata -->
-            <div class="mb-4">
-                <small class="text-muted d-block">
-                    Created by <strong>{{ user.username }}</strong> on {{ note.created_at.strftime('%Y-%m-%d %I:%M %p') }}
-                </small>
-                <small class="text-muted d-block">
-                    Last updated on {{ note.updated_at.strftime('%Y-%m-%d %H:%M %p') }}
-                </small>
-            </div>
-
-            <!-- Content -->
-            <div class="card-text">
-                <p>{{ note.content }}</p>
-            </div>
+      <!-- Note Content -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body px-4 py-3" style="min-height: 200px;">
+          <p class="card-text" style="white-space: pre-line;">{{ note.content }}</p>
         </div>
+      </div>
 
-        <!-- Back Button -->
-        <div class="card-footer bg-white text-end border-0">
-            <a href="{{ url_for('notes.show_notes') }}" class="btn btn-outline-primary">← Back to Notes</a>
-        </div>
+      <!-- Back Button -->
+      <div class="d-flex justify-content-end">
+        <a href="{{ url_for('notes.show_notes') }}" class="btn btn-outline-primary">← Back to Notes</a>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
