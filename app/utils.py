@@ -2,9 +2,11 @@ import os
 import secrets
 from PIL import Image
 from werkzeug.utils import secure_filename
-from flask import current_app,flash
+from flask import current_app,flash,url_for
 from flask_login import current_user
 import requests
+from app import mail
+from flask_mail import Message
 
 def save_avatar(email):
     url = f"https://api.dicebear.com/9.x/fun-emoji/svg?seed={email}&mouth=cute,kissHeart,lilSmile,plain,shy,smileLol,smileTeeth,tongueOut,wideSmile"
@@ -60,4 +62,29 @@ def save_picture(new_picture_file,email):
     i.save(picture_path)
     flash("New image saved","success")
     return f"/avatars/{picture_fn}"
+
+def send_reset_email(user):
+    token= user.get_reset_token()
+    msg=Message(subject='Password Reset Request', sender=('StoryCloak','pavithapariofficial@gmail.com'),
+                recipients=[user.email])
+    msg.html = f"""
+        <!DOCTYPE html>
+        <html>
+        <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+            <div style="max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 10px;">
+            <h2 style="color: #333;">Hi {user.username},</h2>
+            <p>We received a request to reset your password. Click the button below to proceed:</p>
+            <a href="{url_for('users.reset_token', token=token, _external=True)}"
+                style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white;
+                        text-decoration: none; border-radius: 5px; font-weight: bold;">
+                Reset Password
+            </a>
+            <p style="margin-top: 20px;">If you didn’t make this request, feel free to ignore this email.</p>
+            <p style="color: #888;">— StoryCloak Team</p>
+            </div>
+        </body>
+        </html>
+        """
+
+    mail.send(msg)
 

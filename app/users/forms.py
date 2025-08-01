@@ -38,3 +38,17 @@ class UserForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class RequestResetForm(FlaskForm):
+    email=EmailField('Email',validators=[DataRequired(),Email()])
+    submit=SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        user=User.query.filter_by(email=email.data).first()
+        submit = SubmitField('Change')
+        if user is None:
+            raise ValidationError('There is no accout associalte with the email.')
+
+class ResetPasswordForm(FlaskForm):
+    password=PasswordField('Password',validators=[DataRequired() ])
+    con_password=PasswordField('Confirm Password',validators=[DataRequired(),EqualTo('password')])  
+    submit=SubmitField('Reset password')

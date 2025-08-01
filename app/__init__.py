@@ -11,7 +11,7 @@ db = SQLAlchemy()
 migrate=Migrate()
 bcrypt = Bcrypt()
 login_manager = LoginManager()  # 
-
+mail=Mail() 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -19,12 +19,13 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app,db)
     bcrypt.init_app(app)
-    login_manager.init_app(app)  # 
+    login_manager.init_app(app)  
+    
 
     #  Configure LoginManager
     login_manager.login_view = 'users.login'  # function name of login route
     login_manager.login_message_category = 'info'  # Bootstrap category for flash messages
-
+    mail.init_app(app)
     from app.users.routes import users
     from app.posts.routes import posts
     from app.main.routes import main

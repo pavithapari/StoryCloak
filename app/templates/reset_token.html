@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Sign up the form</legend>
+            <!-- password -->
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                    <div class="form-floating flex-grow-1">
+                        {% if form.password.errors %}
+                            {{ form.password(class="form-control is-invalid", id="floatingpassword", placeholder="Enter password") }}
+                            <label for="floatingpassword">password</label>
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class="form-control", id="floatingpassword", placeholder="Enter password") }}
+                            <label for="floatingpassword">password</label>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    <div class="form-floating flex-grow-1">
+                        {% if form.con_password.errors %}
+                            {{ form.con_password(class="form-control is-invalid", id="floatingconpass", placeholder="Confirm password") }}
+                            <label for="floatingconpass">Confirm Password</label>
+                            <div class="invalid-feedback">
+                                {% for error in form.con_password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.con_password(class="form-control", id="floatingconpass", placeholder="Confirm password") }}
+                            <label for="floatingconpass">Confirm Password</label>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+           
+        </fieldset>
+
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info mt-3 mb-3") }}
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,9 +1,10 @@
 from flask import Blueprint
 from flask import render_template, request,flash,redirect,url_for
-from app.users.forms import LoginForm,SignupForm,UserForm
+from app.users.forms import LoginForm,SignupForm,UserForm,RequestResetForm,ResetPasswordForm
 from flask_login import current_user, login_user, logout_user,login_required
 from datetime import datetime
-from app.utils import save_avatar,save_picture,delete_old_avatar
+from app.utils import save_avatar,save_picture,delete_old_avatar,send_reset_email
+
 users = Blueprint('users', __name__)
 from app import db, bcrypt
 from app.models import User
@@ -105,3 +106,33 @@ def reset_profile_picture():
         flash("Your profile picture has been reset successfully!", "success")
         return redirect(url_for('users.profile', toast='reset-success'))
 
+@users.route("/reset_password",methods=['GET','POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
+    form= RequestResetForm()
+    if form.validate_on_submit():
+        user=User.query.filter_by(email=form.email.data).first()
+        if not user:
+            flash("This account is not registered!","danger")
+        send_reset_email(user)
+        flash("An email is send with instructions so you can reset it","info")
+
+    return render_template("reset_request.html",form=form,now=datetime.now(),user=current_user)
+
+@users.route("/reset_password/<token>",methods=['GET','POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
+    user=User.verify_reset_token(token)
+    if not user:
+        flash('That is an invalid or expired token','warning')
+        return redirect(url_for('users.reset_request'))
+    form=ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password=hashed_password
+        db.session.commit()
+        flash(f"Your password has been updated! Now you can log in!" ,"success")
+        return redirect(url_for("users.login"))
+    return render_template('reset_token.html',form=form,now=datetime.now(),user=current_user)

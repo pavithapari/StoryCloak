@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from app import login_manager
 from datetime import datetime
 
+from itsdangerous import URLSafeTimedSerializer as Serializer
 
 
 
@@ -17,9 +18,20 @@ class User(db.Model, UserMixin):
     date_joined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy=True)
     likes = db.relationship('Like', back_populates='user', cascade="all, delete-orphan")
-
+    
+    def get_reset_token(self):
+        s= Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id})
     def __repr__(self):
-        return f"{self.username}({self.email} {self.profile_picture})"
+        return f"User('{self.username}', '{self.email}', '{self.profile_picture}')"
+    @staticmethod
+    def verify_reset_token(token,expires_sec=360):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token,max_age=expires_sec)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
 
 class Post(db.Model,UserMixin):
     __tablename__='posts'
@@ -31,6 +43,7 @@ class Post(db.Model,UserMixin):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  
     likes = db.relationship('Like', back_populates='post', cascade="all, delete-orphan")
+
 
 class Like(db.Model):
     __tablename__ = 'like_table'
