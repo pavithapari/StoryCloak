@@ -38,7 +38,7 @@
           <a class="nav-link" href="{{ url_for('posts.create_post') }}"><i class="bi bi-pencil-square me-1"></i>Share a Story</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="bi bi-collection me-1"></i>Your Notes</a>
+          <a class="nav-link" href="{{ url_for('notes.show_notes') }}"><i class="bi bi-collection me-1"></i>Your Notes</a>
         </li>
       </ul>
 
@@ -71,10 +71,10 @@
       {% endfor %}
     {% endif %}
   {% endwith %}
-
-  {% block content %}
+    {% block content %}
   {% endblock %}
 </div>
+
 
 <!-- Footer -->
 <footer class="text-center text-white py-4 mt-5">
@@ -121,8 +121,5 @@ document.querySelectorAll('.like-button').forEach(button => {
     });
   });
 </script>
-
-
-
 </body>
 </html>

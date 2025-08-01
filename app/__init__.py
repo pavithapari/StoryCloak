@@ -28,9 +28,11 @@ def create_app(config_class=Config):
     from app.users.routes import users
     from app.posts.routes import posts
     from app.main.routes import main
+    from app.notes.routes import notes
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
+    app.register_blueprint(notes)
 
     with app.app_context():
         from app.models import User, Post

@@ -3,17 +3,30 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h1 class="text-primary">{{ post.title }}</h1>
-  <p class="text-muted">Posted by {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
-  <hr>
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-9">
+      <!-- Title & Metadata -->
+      <div class="mb-4 text-center">
+        <h1 class="text-primary">{{ post.title }}</h1>
+        <p class="text-muted">
+          Posted by <strong>{{ post.author.username }}</strong>
+          on {{ post.date_posted.strftime('%Y-%m-%d') }}
+        </p>
+      </div>
 
-  <div class="card mb-4">
-    <div class="card-body">
-      <p>{{ post.content }}</p>
+      <!-- Post Content -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body px-4 py-3" style="min-height: 200px;">
+
+          <p class="card-text" style="white-space: pre-line;">{{ post.content }}</p>
+        </div>
+      </div>
+
+      <!-- Back Button -->
+      <div class="d-flex justify-content-end">
+        <a href="{{ url_for('main.home') }}" class="btn btn-outline-secondary">← Back to Home</a>
+      </div>
     </div>
   </div>
-
-  <div class="text-end">
-    <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a>
-  </div>
-  {% endblock %}
+</div>
+{% endblock %}

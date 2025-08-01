@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %} Notes | {{ user.username }} {% endblock %}
+{% block content %}
+
+{% for note in notes %}
+<article class="mb-4">
+  <div class="card shadow-sm mb-4 outline-{{ note.tags }}" style="position: relative;">
+    <div class="card-body">
+      <span class="badge bg-{{ note.tags }}" style="position: absolute; top: 10px; right: 10px;">
+        {{ note.tags }}
+      </span>
+
+      <div class="d-flex align-items-center mb-3">
+        <img src="{{ url_for('static', filename=user.profile_picture) }}"
+             alt="avatar" class="rounded-circle me-2" width="40" height="40">
+        <div>
+          <h6 class="mb-0">{{ user.username }}</h6>
+          <small>{{ note.created_at.strftime('%Y-%m-%d') }}</small>
+        </div>
+      </div>
+
+      <h5 class="card-title">{{ note.title }}</h5>
+
+      <div class="card-text" style="max-height: 100px; overflow: hidden;">
+        <p class="text-truncate">{{ note.content[:50] }}...</p>
+        <div class="text-end mt-2">
+          <a href="{{ url_for('notes.read_more', note_id=note.id) }}" class="btn btn-sm btn-outline-primary">
+            Read More
+          </a>
+          <a href="{{ url_for('notes.edit_note',note_id=note.id) }}" class="btn btn-primary btn-sm">
+            Edit
+          </a>
+                  <button class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="#deleteModalLabel">Note Deletion confirmation</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you wanna delete this note for sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form action="{{ url_for('notes.delete_note',note_id=note.id)}}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+{% if loop.last %}
+<div class="text-center mt-4">
+  <a href="{{ url_for('posts.create_post') }}" class="btn btn-outline-success">Create More</a>
+</div>
+{% endif %}
+
+{% else %}
+<div class="container mt-5">
+  <div class="alert alert-info text-center" role="alert">
+    <h4 class="alert-heading">No Notes Found!</h4>
+    <p>It seems you haven't created any notes yet. Start jotting down your thoughts!</p>
+    <hr>
+    <p class="mb-0">Click the button below to create your first note.</p>
+    <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary mt-3">Create Note</a>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

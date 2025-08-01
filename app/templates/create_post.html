@@ -35,7 +35,7 @@
       </div>
       {% endif %}
     </div>
-
+    
     <!-- Tags -->
     <div class="mb-4">
       <label class="form-label">Tags / Categories</label>
@@ -45,27 +45,44 @@
       <div class="collapse mt-2" id="tagOptions">
         <div class="card card-body">
           {% for tag in ['humor', 'personal', 'tips', 'reviews', 'tech', 'notes'] %}
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="tags" value="{{ tag }}" id="tag_{{ tag }}">
-            <label class="form-check-label" for="tag_{{ tag }}">{{ tag.capitalize() }}</label>
-          </div>
-          {% endfor %}
+  <div class="form-check">
+    <input class="form-check-input"
+           type="checkbox"
+           name="tags"
+           value="{{ tag }}"
+           id="tag_{{ tag }}"
+           {% if tag in selected_tags %}checked{% endif %}>
+    <label class="form-check-label" for="tag_{{ tag }}">{{ tag.capitalize() }}</label>
+  </div>
+{% endfor %}
         </div>
       </div>
       <small class="form-text text-muted mt-2">Choose one or more tags.</small>
     </div>
 
     <!-- Visibility -->
-    <div class="mb-4">
-      <label class="form-label">Choose Visibility</label>
-      <div class="btn-group w-100" role="group">
-        <input type="radio" class="btn-check" name="visibility" id="publicPost" value="public" checked>
-        <label class="btn btn-outline-success" for="publicPost">Post Publicly</label>
+<div class="mb-4">
+  <label class="form-label">Choose Visibility</label>
+  <div class="btn-group w-100" role="group">
+    <!-- Public Option -->
+    <input type="radio"
+           class="btn-check"
+           name="visibility"
+           id="publicPost"
+           value="public"
+           {% if form.visibility.data == 'public' %}checked{% endif %}>
+    <label class="btn btn-outline-success" for="publicPost">Post Publicly</label>
 
-        <input type="radio" class="btn-check" name="visibility" id="privateNote" value="private">
-        <label class="btn btn-outline-secondary" for="privateNote">Save as Personal Note</label>
-      </div>
-    </div>
+    <!-- Private Option -->
+    <input type="radio"
+           class="btn-check"
+           name="visibility"
+           id="privateNote"
+           value="private"
+           {% if form.visibility.data == 'private' %}checked{% endif %}>
+    <label class="btn btn-outline-secondary" for="privateNote">Save as Personal Note</label>
+  </div>
+</div>
 
     <!-- Submit Button -->
     <div class="d-grid mt-4">
