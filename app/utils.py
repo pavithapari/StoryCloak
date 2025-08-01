@@ -71,7 +71,7 @@ def send_reset_email(user):
         <!DOCTYPE html>
         <html>
         <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
-            <div style="max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 10px;">
+            <div style="max-width: 600px; margin: auto; background: antiquewhite; padding: 30px; border-radius: 10px;">
             <h2 style="color: #333;">Hi {user.username},</h2>
             <p>We received a request to reset your password. Click the button below to proceed:</p>
             <a href="{url_for('users.reset_token', token=token, _external=True)}"

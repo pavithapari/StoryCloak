@@ -8,3 +8,4 @@ app/static/avatars/*
 
 app/templates/details.html
 
+"app.db" 
