@@ -17,22 +17,26 @@
         {{ form.submit_profile(class="btn btn-primary") }}
       </form>
       <form method="POST" action="{{ url_for('users.reset_profile_picture') }}">
-        <button type="submit" class="btn btn-danger mt-2">Reset Profile Picture</button>
+        {{ form.csrf_token }}
+        <button type="submit" class="btn btn-danger mt-2" id="liveToastBtn">Reset Profile Picture</button>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <strong class="me-auto">Information</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            You can get various avatars from this website <a href="https://www.dicebear.com/playground/">DiceBear</a>
+          </div>
+        </div>
+      </div>
+
+  
       </form>
     </div>
 
     <!-- Form column -->
     <div class="col-md-9">
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-              {{ message }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
 
       <h3 class="mb-3">Personal Info</h3>
 
@@ -74,5 +78,16 @@
       {% endfor %}
     </main>
 </div>
+
+  {% if request.args.get('toast') == 'reset-success' %}
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const toastElement = document.getElementById('liveToast');
+          const toast = new bootstrap.Toast(toastElement, { autohide: false });
+          toast.show();
+        });
+      </script>
+  {% endif %}
+
 
 {% endblock %}

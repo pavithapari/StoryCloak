@@ -103,4 +103,5 @@ def reset_profile_picture():
         current_user.profile_picture = new_picture
         db.session.commit()
         flash("Your profile picture has been reset successfully!", "success")
-        return redirect(url_for('users.profile'))
+        return redirect(url_for('users.profile', toast='reset-success'))
+
