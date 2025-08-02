@@ -1,93 +1,120 @@
 {% extends "base.html" %}
-{% block title %} Profile Page {% endblock %}
+{% block title %}Profile Page{% endblock %}
 {% block content %}
 
 <div class="container mt-5">
-  <h1 class="text-primary">Edit Profile-{{ user.username }}</h1>
-  <hr>
+  <div class="row g-4 flex-column flex-lg-row">
 
-  <div class="row">
-    <!-- Profile picture column -->
-    <div class="col-md-3 text-center">
-    <img src="{{ url_for('static', filename=user.profile_picture) }}" class="rounded-circle img-fluid" style="width: 150px; height: 150px;" alt="avatar">
-      <h6 class="mt-2">Upload a different photo...</h6>
-      <form method="POST" enctype="multipart/form-data" action="{{ url_for('users.upload_profile_picture') }}">
-        {{ form.csrf_token }}
-        {{ form.profile_picture(class="form-control mb-2") }}
-        {{ form.submit_profile(class="btn btn-primary") }}
-      </form>
-      <form method="POST" action="{{ url_for('users.reset_profile_picture') }}">
-        {{ form.csrf_token }}
-        <button type="submit" class="btn btn-danger mt-2" id="liveToastBtn">Reset Profile Picture</button>
-        <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="toast-header">
-            <strong class="me-auto">Information</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    <!-- Profile Card: Sticky on scroll -->
+    <div class="col-lg-4">
+      <div class="position-sticky" style="top: 80px;">
+        <div class="card shadow-sm p-4">
+          <div class="text-center mb-3">
+            <img src="{{ url_for('static', filename=user.profile_picture) }}"
+                 class="rounded-circle img-fluid"
+                 style="width: 130px; height: 130px;" alt="avatar">
           </div>
-          <div class="toast-body">
-            You can get various avatars from this website <a href="https://www.dicebear.com/playground/">DiceBear</a>
+
+          <!-- Upload Form -->
+          <form method="POST" enctype="multipart/form-data" action="{{ url_for('users.upload_profile_picture') }}">
+            {{ form.csrf_token }}
+            {{ form.profile_picture(class="form-control mb-2") }}
+            {{ form.submit_profile(class="btn btn-primary w-100 mb-2") }}
+          </form>
+
+          <!-- Reset Button -->
+          <form method="POST" action="{{ url_for('users.reset_profile_picture') }}">
+            {{ form.csrf_token }}
+            <button type="submit" class="btn btn-outline-danger w-100" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Use only if you want to reset to your original picture after uploading another.">Reset Picture</button>
+          </form>
+
+          <!-- Centered DiceBear Tip -->
+          <div class="small text-muted mt-3 text-center">
+            Want a cool avatar? <br>
+            <a href="https://www.dicebear.com/playground/" target="_blank">Try DiceBear</a>
           </div>
+
+          <hr class="my-4">
+
+          <!-- Edit Info Form -->
+          <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              {{ form.username(class="form-control", value=user.username) }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              {{ form.email(class="form-control", value=user.email) }}
+            </div>
+
+            <div class="d-grid gap-2">
+              {{ form.submit(class="btn btn-success") }}
+            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+              Delete Account
+            </button>
+
+            </div>
+          </form>
         </div>
       </div>
-
-  
-      </form>
     </div>
 
-    <!-- Form column -->
-    <div class="col-md-9">
+    <!-- Posts Section -->
+    <div class="col-lg-8">
+      <div class="text-center mb-4">
+        <h3 class="text-primary ">YOUR POSTS</h3>
+        <hr class="w-25 mx-auto">
+      </div>
 
-      <h3 class="mb-3">Personal Info</h3>
-
-      <form method="POST">
-        {{ form.hidden_tag() }}
-
-        <div class="mb-3 row">
-          <label class="col-sm-3 col-form-label">Username</label>
-          <div class="col-sm-9">
-            {{ form.username(class="form-control", value=user.username) }}
+      {% if posts %}
+        {% for post in posts %}
+          {% set liked = post.likes | selectattr("user_id", "equalto", current_user.id) | list | length > 0 %}
+          {% set edit = True %}
+          {% include "_post_card.html" %}
+        {% endfor %}
+      {% else %}
+        <div class="container mt-5">
+          <div class="alert alert-info text-center" role="alert">
+            <h4 class="alert-heading">No Posts Found!</h4>
+            <p>It seems you haven't created any posts yet. Start jotting down your thoughts!</p>
+            <hr>
+            <p class="mb-0">Click the button below to create your first note.</p>
+            <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary mt-3">Create Note</a>
           </div>
         </div>
+      {% endif %}
+    </div>
 
-        <div class="mb-3 row">
-          <label class="col-sm-3 col-form-label">Email</label>
-          <div class="col-sm-9">
-            {{ form.email(class="form-control",value=user.email) }}
-          </div>
-        </div>
+  </div>
+</div>
 
-        <div class="text-end">
-          {{ form.submit(class="btn btn-success") }}
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('users.delete_account') }}">
+        {{ form.csrf_token }}
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteAccountModalLabel">Confirm Account Deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          Are you sure you want to delete your account? This action cannot be undone.
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <input type="submit" class="btn btn-danger" value="Delete">
+      </div>
+
       </form>
     </div>
   </div>
 </div>
 
-<div class="d-flex justify-content-center">
-  <main class="col-12 col-lg-9 mt-4">
-    {% for post in posts %}
-    {% set liked = post.likes | selectattr("user_id", "equalto", current_user.id) | list | length > 0 %}
-    {% set edit=True %}
-    {% include "_post_card.html" %}
-{% block like_script %}
-{% endblock %}
 
 
-      {% endfor %}
-    </main>
-</div>
-
-  {% if request.args.get('toast') == 'reset-success' %}
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          const toastElement = document.getElementById('liveToast');
-          const toast = new bootstrap.Toast(toastElement, { autohide: false });
-          toast.show();
-        });
-      </script>
-  {% endif %}
-
-
+{% block like_script %}{% endblock %}
 {% endblock %}

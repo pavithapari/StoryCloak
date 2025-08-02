@@ -35,7 +35,7 @@ class UserForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     profile_picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'webp'])])
     submit_profile = SubmitField('Update Profile')
-    submit = SubmitField('Submit')
+    submit = SubmitField('Update')
 
 
 class RequestResetForm(FlaskForm):
