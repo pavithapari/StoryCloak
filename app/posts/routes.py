@@ -20,7 +20,7 @@ def create_post():
                 title=form.title.data,
                 content=form.content.data,
                 visibility=form.visibility.data,
-                user=current_user
+                author=current_user
             )
             db.session.add(note)
             db.session.commit()
@@ -76,7 +76,7 @@ def delete_post(post_id):
         flash("Your post has been deleted successfully!", "success")
     else:
         flash("You do not have permission to delete this post.", "danger")
-    return redirect(url_for('posts.user_posts', username=current_user.username))
+    return redirect(url_for('users.profile'))
 @posts.route('/posts/<int:post_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_post(post_id):
@@ -98,7 +98,7 @@ def edit_post(post_id):
                 title=form.title.data,
                 content=form.content.data,
                 visibility=form.visibility.data,
-                user=current_user
+                author=current_user
             )
             db.session.add(note)
             db.session.commit()

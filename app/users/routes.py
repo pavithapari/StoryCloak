@@ -4,6 +4,7 @@ from app.users.forms import LoginForm,SignupForm,UserForm,RequestResetForm,Reset
 from flask_login import current_user, login_user, logout_user,login_required
 from datetime import datetime
 from app.utils import save_avatar,save_picture,delete_old_avatar,send_reset_email
+from app.models import Post
 
 users = Blueprint('users', __name__)
 from app import db, bcrypt
@@ -136,3 +137,23 @@ def reset_token(token):
         flash(f"Your password has been updated! Now you can log in!" ,"success")
         return redirect(url_for("users.login"))
     return render_template('reset_token.html',form=form,now=datetime.now(),user=current_user)
+
+@users.route('/delete_account', methods=['POST'])
+@login_required
+def delete_account():
+    user = current_user
+    old_picture_path = user.profile_picture
+    Post.query.filter_by(user_id=user.id).delete()
+
+    # Delete the user from the database
+    db.session.delete(user)
+    db.session.commit()
+    flash("Your account has been deleted successfully.", "success")
+
+    # Delete the old avatar if it exists
+    delete_old_avatar(old_picture_path)
+
+    # Log out the user
+    logout_user()
+
+    return redirect(url_for('main.home'))
