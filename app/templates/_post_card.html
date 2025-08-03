@@ -35,7 +35,7 @@
           Read More
         </a>
           {% if edit %}
-        <a href="{{ url_for('posts.edit_post', post_id=post.id) }}" class="btn btn-primary">Edit Post</a>
+        <a href="{{ url_for('posts.edit_post', post_id=post.id) }}" class="btn btn-sm btn-primary">Edit Post</a>
         <button class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -71,11 +71,9 @@
             <button class="like-button" data-post-id="{{ post.id }}">
               ❤️ <span class="like-count">{{ post.likes | length }}</span>
             </button>
-
-
-              <button class="btn btn-sm btn-outline-secondary me-2">
-                <i class="bi bi-link-45deg"></i> Share
-              </button>
+            <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#shareModal{{ post.id }}">
+              <i class="bi bi-link-45deg"></i> Share
+            </button>
               <button class="btn btn-sm btn-outline-info">
                 <i class="bi bi-stars"></i> Related
               </button>
@@ -83,6 +81,44 @@
           </div>
         </div>
       </article>
+<!-- share_modal.html -->
+<div class="modal fade" id="shareModal{{ post.id }}" tabindex="-1" aria-labelledby="shareModalLabel{{ post.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      
+      <!-- Modal Header (Optional, but improves UX) -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="shareModalLabel{{ post.id }}">Share This Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <div class="d-flex flex-column gap-2">
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('posts.readmore', post_id=post.id, _external=True) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+            <i class="bi bi-facebook"></i> Share on Facebook
+          </a>
+          <a href="https://twitter.com/intent/tweet?url={{ url_for('posts.readmore', post_id=post.id, _external=True) }}&text={{ post.title }}" target="_blank" class="btn btn-sm btn-outline-info">
+            <i class="bi bi-instagram"></i> Share on Instagram
+          </a>
+          <a href="https://api.whatsapp.com/send?text={{ post.title }} - {{ url_for('posts.readmore', post_id=post.id, _external=True) }}" target="_blank" class="btn btn-sm btn-outline-success">
+            <i class="bi bi-whatsapp"></i> Share via WhatsApp
+          </a>
+          <button class="btn btn-sm btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText('{{ url_for('posts.readmore', post_id=post.id, _external=True) }}'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy Link', 1500);">
+            <i class="bi bi-clipboard"></i> Copy Link
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Footer (Optional) -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+  
 
 {% block like_script %}
 {% endblock %}
