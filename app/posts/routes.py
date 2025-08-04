@@ -199,4 +199,12 @@ def saved_posts():
         return redirect(url_for('posts.latest_posts'))
     return render_template('saved_posts.html', saved_posts=saved_posts, user=current_user, now=datetime.now())
 
-
+@posts.route('/unsave_post/<int:post_id>', methods=['GET','POST'])
+@login_required
+def unsave_post(post_id):
+    saved_post = SavePost.query.filter_by(user_id=current_user.id, post_id=post_id).first()
+    if saved_post:
+        db.session.delete(saved_post)
+        db.session.commit()
+        flash("Post unsaved successfully!", "success")
+    return redirect(url_for('posts.saved_posts'))
