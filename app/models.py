@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy=True)
     likes = db.relationship('Like', back_populates='user', cascade="all, delete-orphan")
     private_notes = db.relationship('PrivateNote', back_populates='author', cascade='all, delete-orphan')
+    saved_posts = db.relationship('SavePost', back_populates='user', cascade='all, delete-orphan')
 
     def get_reset_token(self):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -48,7 +49,7 @@ class Post(db.Model):
     visibility = db.Column(db.String(10), nullable=False, default='private')
     date_posted = db.Column(db.DateTime, nullable=False, default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-
+    saved_by_users = db.relationship('SavePost', back_populates='post', cascade="all, delete-orphan")
     likes = db.relationship('Like', back_populates='post', cascade="all, delete-orphan")
 
 # --------------------- Like Model ---------------------
@@ -62,6 +63,7 @@ class Like(db.Model):
 
     user = db.relationship('User', back_populates='likes')
     post = db.relationship('Post', back_populates='likes')
+
 
 # --------------------- PrivateNote Model ---------------------
 class PrivateNote(db.Model):
@@ -77,6 +79,19 @@ class PrivateNote(db.Model):
 
     # ✅ Only one relationship to User to avoid conflict
     author = db.relationship('User', back_populates='private_notes')
+
+
+# --------------------- save posts model --------------------
+class SavePost(db.Model):
+    __tablename__ = 'saved_posts'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    post_id=db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    user = db.relationship('User', back_populates='saved_posts')
+    post = db.relationship('Post', back_populates='saved_by_users')
+
+
+
 
 # --------------------- Login Loader ---------------------
 @login_manager.user_loader
