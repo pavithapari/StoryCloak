@@ -96,7 +96,7 @@ def upload_profile_picture():
 @login_required
 def reset_profile_picture():
     old_picture_path = current_user.profile_picture
-    new_picture = save_avatar(current_user.email)
+    new_picture = save_avatar(current_user.email,suppress_errors=False)
     if new_picture is None:
         flash("Failed to reset profile picture. Please try again.", "danger")
         return redirect(url_for('users.profile'))
@@ -149,9 +149,8 @@ def delete_account():
     db.session.delete(user)
     db.session.commit()
     flash("Your account has been deleted successfully.", "success")
-
-    # Delete the old avatar if it exists
-    delete_old_avatar(old_picture_path)
+    if old_picture_path !='/avatars/test.svg':
+        delete_old_avatar(old_picture_path)
 
     # Log out the user
     logout_user()
