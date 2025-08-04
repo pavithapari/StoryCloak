@@ -7,28 +7,36 @@ from flask_login import current_user
 import requests
 from app import mail
 from flask_mail import Message
+from requests.exceptions import RequestException
 
-def save_avatar(email):
-    url = f"https://api.dicebear.com/9.x/fun-emoji/svg?seed={email}&mouth=cute,kissHeart,lilSmile,plain,shy,smileLol,smileTeeth,tongueOut,wideSmile"
-    response = requests.get(url)
+def save_avatar(email, suppress_errors=True):
+    try:
+        url = f"https://api.dicebear.com/9.x/fun-emoji/svg?seed={email}&mouth=cute,kissHeart,lilSmile,plain,shy,smileLol,smileTeeth,tongueOut,wideSmile"
+        response = requests.get(url)
+        response.raise_for_status()
 
-    if response.status_code == 200:
         base_path = os.path.dirname(os.path.abspath(__file__))
         folder_path = os.path.join(base_path, "static", "avatars")
         os.makedirs(folder_path, exist_ok=True)
-        print(response.status_code)
-        random_hex = secrets.token_hex(4) 
+
+        random_hex = secrets.token_hex(4)
         filename = f"{random_hex}_{secure_filename(email)}.svg"
         file_path = os.path.join(folder_path, filename)
 
         with open(file_path, "wb") as f:
             f.write(response.content)
-            flash("Avatar saved successfully!", "success")
 
-        return f"/avatars/{filename}"  # Relative path for HTML use
-    else:
-        flash("Failed to save avatar. Using default avatar.", "error")
-        return "/avatars/test.svg"  # Fallback avatar
+        flash("Avatar saved successfully!", "success")
+        return f"/avatars/{filename}"
+
+    except RequestException as e:
+        if suppress_errors:
+            flash("Failed to fetch avatar. Using default.", "error")
+            return "/avatars/test.svg"
+        else:
+            # Let the error bubble up to trigger Flask's app_errorhandler
+            raise
+
 
 def delete_old_avatar(old_picture_path):
     if not isinstance(old_picture_path, str):
