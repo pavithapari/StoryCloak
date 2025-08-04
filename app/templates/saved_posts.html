@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %} Saved posts | {{ user.username }} {% endblock %}
+{% block content %}
+
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+        <h3 class="fs-6 text-secondary mb-2 text-uppercase text-center">{{ user.username }}'s Saved Posts</h3>
+        <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+      </div>
+    </div>
+  </div>
+<div class="d-flex justify-content-center">
+      <main class="col-12 col-lg-9 mt-4">
+      {% for post in saved_posts %}
+      <article class="mb-4">
+    <div class="card shadow-sm mb-4 outline-{{ post.tags }}" style="max-width: 100%; position: relative;">
+      <div class="card-body position-relative">
+        <!-- POST TAGS -->
+        {% if post.tags %}
+        <div class="position-absolute top-0 end-0 mt-2 me-2">
+          {% for tag in post.tags.split(',') %}
+          <span class="badge bg-{{ tag.strip() }}">{{ tag.strip() }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+    <!-- USER INFO & CATEGORY -->
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename=post.author.profile_picture) }}" 
+
+             alt="avatar" class="rounded-circle me-2" width="40" height="40">
+        <div>
+          <h6 class="mb-0"><a href="{{ url_for('posts.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></h6>
+          <small>{{ post.date_posted.strftime('%y-%m-%d') }}</small>
+        </div>
+        <br>
+      </div>
+      
+    </div>
+
+    <!-- TITLE -->
+    <h5 class="card-title">{{ post.title }}</h5>
+
+    <!-- CONTENT WITH READ MORE -->
+    <div class="card-text" style="max-height: 100px; overflow: hidden; position: relative;">
+      <p class="text-truncate-ellipsis">{{ post.content[0:25] }}...</p>
+      <div class="text-end mt-2">
+        <a href="{{ url_for('posts.readmore', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
+          Read More
+        </a>
+          {% if edit %}
+        <a href="{{ url_for('posts.edit_post', post_id=post.id) }}" class="btn btn-sm btn-primary">Edit Post</a>
+        <button class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="#deleteModalLabel">Post Deletion confirmation</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you wanna delete this post for sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form action="{{ url_for('posts.delete_post',post_id=post.id)}}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+        {% endif %}
+        </div>
+            </div>
+            
+        </div>
+        </div>
+        </article>
+
+
+
+      {% endfor %}
+    </main>
+    </div>
+
+  {% endblock %}

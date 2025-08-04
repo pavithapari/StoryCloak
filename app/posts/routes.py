@@ -4,7 +4,7 @@ from app import db
 from flask_login import current_user,login_required
 from app.posts.forms import PostForm
 posts = Blueprint('posts', __name__)
-from app.models import Post,User,Like,PrivateNote
+from app.models import Post,User,Like,PrivateNote,SavePost
 from sqlalchemy import func
 
 
@@ -179,3 +179,24 @@ def none():
 def all():
     all_posts = Post.query.order_by(Post.date_posted.desc()).all()
     return render_template('home.html', posts=all_posts, user=current_user, now=datetime.now())
+
+@posts.route('/save_posts/<int:post_id>', methods=['GET','POST'])
+@login_required
+def save_post(post_id):
+    if request.method == 'POST':
+        new=SavePost(user_id=current_user.id, post_id=post_id)
+        db.session.add(new)
+        db.session.commit()
+        flash("Post saved successfully!", "success")
+    return redirect(url_for('posts.saved_posts'))
+@posts.route('/saved_posts', methods=['GET','POST'])
+@login_required
+def saved_posts():
+    user=current_user
+    saved_posts=Post.query.join(SavePost).filter(SavePost.user_id == user.id).order_by(Post.date_posted.desc()).all()
+    if not saved_posts:
+        flash("You have no saved posts.", "info")
+        return redirect(url_for('posts.latest_posts'))
+    return render_template('saved_posts.html', saved_posts=saved_posts, user=current_user, now=datetime.now())
+
+
