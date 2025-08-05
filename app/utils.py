@@ -25,13 +25,10 @@ def save_avatar(email, suppress_errors=True):
 
         with open(file_path, "wb") as f:
             f.write(response.content)
-
-        flash("Avatar saved successfully!", "success")
         return f"/avatars/{filename}"
 
     except RequestException as e:
         if suppress_errors:
-            flash("Failed to fetch avatar. Using default.", "error")
             return "/avatars/test.svg"
         else:
             # Let the error bubble up to trigger Flask's app_errorhandler
@@ -71,6 +68,8 @@ def save_picture(new_picture_file,email):
     flash("New image saved","success")
     return f"/avatars/{picture_fn}"
 
+
+
 def send_reset_email(user):
     token= user.get_reset_token()
     msg=Message(subject='Password Reset Request', sender=('StoryCloak','pavithapariofficial@gmail.com'),
@@ -96,3 +95,48 @@ def send_reset_email(user):
 
     mail.send(msg)
 
+
+def send_confirmation_email(user):
+    token = user.get_confirm_token()
+    msg = Message(subject="Confirm Your Email",
+                  sender=("StoryCloak", "pavithapariofficial@gmail.com"),
+                  recipients=[user.email])
+    msg.html = f"""
+    <html>
+        <body>
+            <h2>Hello {user.username},</h2>
+            <p>Please confirm your email by clicking the button below:</p>
+            <br>
+            <a href="{url_for('users.confirm_mail', token=token, _external=True)}"
+               style="padding:10px 20px; background-color:#007BFF; color:white; text-decoration:none; border-radius:5px;">
+               Confirm Email
+            </a>
+            <br>
+            <p>If you did not create an account, you can safely ignore this email.</p>
+            <p>Thank you for joining StoryCloak!</p>
+            <p style="color: #888;">— The StoryCloak Team</p>
+        </body>
+    </html>
+    """
+    mail.send(msg)
+
+def send_welcome(email,name):
+    msg = Message(subject="Welcome to StoryCloak",
+                  sender=("StoryCloak", "pavithapariofficial@gmail.com"),
+                  recipients=[email])
+    msg.html = f"""
+        <!DOCTYPE html>
+        <html>
+        <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+            <div style="max-width: 600px; margin: auto; background: antiquewhite; padding: 30px; border-radius: 10px;">
+            <h2 style="color: #333;">Welcome to StoryCloak, {name}!</h2>
+            <p>We're excited to have you join our community of storyCloak.</p>          
+            <p>Feel free to explore, share your stories, and connect with others.</p>
+            <p style="margin-top: 20px;">If you have any questions or need help, just reply to this email.</p>
+            <p style="color: #888;">— The StoryCloak Team</p>
+            </div>
+        </body>
+        </html>
+        """
+    mail.send(msg)
+    

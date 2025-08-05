@@ -65,7 +65,12 @@
         </div>
           <div class="card-footer d-flex justify-content-between align-items-center bg-light">
             <small class="text-muted">
-                <i class="bi bi-calendar3"></i> {{ post.date_posted.strftime('%d %b %Y, %H:%M') }}
+                <span class="d-inline d-lg-none">
+                  <i class="bi bi-calendar3"></i> {{ post.date_posted.strftime('%d %b %Y') }}
+                </span>
+                <span class="d-none d-lg-inline">
+                  <i class="bi bi-calendar3"></i> {{ post.date_posted.strftime('%d %b %Y, %H:%M') }}
+                </span>
             </small>
             <div class="d-flex align-items-center gap-2">
               <button class="like-button" data-post-id="{{ post.id }}">

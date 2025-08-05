@@ -10,7 +10,7 @@
         <h1 class="text-primary">{{ post.title }}</h1>
         <p class="text-muted">
           Posted by <strong>{{ post.author.username }}</strong>
-          on {{ post.date_posted.strftime('%Y-%m-%d') }}
+          on {{ post.date_posted.strftime('%Y-%m-%d') }} at {{ post.date_posted.strftime('%I:%M %p') }}
         </p>
       </div>
 

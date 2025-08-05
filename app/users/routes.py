@@ -3,7 +3,7 @@ from flask import render_template, request,flash,redirect,url_for
 from app.users.forms import LoginForm,SignupForm,UserForm,RequestResetForm,ResetPasswordForm
 from flask_login import current_user, login_user, logout_user,login_required
 from datetime import datetime
-from app.utils import save_avatar,save_picture,delete_old_avatar,send_reset_email
+from app.utils import save_avatar,save_picture,delete_old_avatar,send_reset_email,send_confirmation_email,send_welcome
 from app.models import Post
 
 users = Blueprint('users', __name__)
@@ -16,6 +16,9 @@ def login():
     if form.validate_on_submit():
         user=User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password,form.password.data):
+                if not user.is_confirmed:
+                    flash('Please confirm your email before logging in.', 'warning')
+                    return redirect(url_for('users.login'))
                 login_user(user, remember=form.remember.data) 
                 flash("Login successful!", "success")
                 next_page = request.args.get('next') # i use get() for error handling
@@ -41,7 +44,9 @@ def signup():
             )
             db.session.add(user)
             db.session.commit()
-            flash("Your account has been created successfully! You can now log in.", "success")
+            user=User.query.filter_by(email=form.email.data).first()
+            send_confirmation_email(user)
+            flash("Your account has been created successfully! Please confirm your email before logging in.", "success")
             return redirect(url_for('users.login'))
     return render_template("signup.html", now=datetime.now(), year=datetime.now().year, form=form, user=current_user)
 
@@ -156,3 +161,21 @@ def delete_account():
     logout_user()
 
     return redirect(url_for('main.home'))
+
+@users.route('/confirm/<token>')
+def confirm_mail(token):
+    user = User.verify_confirm_token(token)
+    if not user:
+        flash('Invalid or expired token', 'danger')
+        return redirect(url_for('main.home'))
+
+    if user.is_confirmed:
+        flash('Account already confirmed. Please log in.', 'info')
+    else:
+        user.is_confirmed = True
+        db.session.commit()
+        send_welcome(user.email,user.username)
+        flash('Your account has been confirmed!', 'success')
+
+    return redirect(url_for('users.login'))
+
