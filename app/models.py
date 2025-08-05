@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     profile_picture = db.Column(db.String(20), nullable=False, default='static/avatars/test.webp')
     date_joined = db.Column(db.DateTime, nullable=False, default=func.now())
-
+    is_confirmed = db.Column(db.Boolean, default=False)  
     posts = db.relationship('Post', backref='author', lazy=True)
     likes = db.relationship('Like', back_populates='user', cascade="all, delete-orphan")
     private_notes = db.relationship('PrivateNote', back_populates='author', cascade='all, delete-orphan')
@@ -25,6 +25,8 @@ class User(db.Model, UserMixin):
     def get_reset_token(self):
         s = Serializer(current_app.config['SECRET_KEY'])
         return s.dumps({'user_id': self.id})
+    
+    
 
     @staticmethod
     def verify_reset_token(token, expires_sec=360):
@@ -37,6 +39,19 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.profile_picture}')"
+
+    def get_confirm_token(self):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id})
+
+    @staticmethod
+    def verify_confirm_token(token, expires_sec=3600):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token, max_age=expires_sec)['user_id']
+        except Exception:
+            return None
+        return User.query.get(user_id)
 
 # --------------------- Post Model ---------------------
 class Post(db.Model):
