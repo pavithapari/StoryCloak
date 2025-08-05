@@ -43,7 +43,8 @@ def create_post():
 
 @posts.route('/latest_posts')
 def latest_posts():
-    posts = Post.query.order_by(Post.date_posted.desc()).all()
+    page=request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
     return render_template('home.html', posts=posts, now=datetime.now(), year=datetime.now().year, user=current_user)
 
 
@@ -144,40 +145,47 @@ def trending():
         .outerjoin(Like, Post.id == Like.post_id)\
         .group_by(Post.id)\
         .order_by(func.count(Like.id).desc())\
-        .all()
+        .limit(7).all()
     posts_only = [post for post, like_count in trending_posts]
     return render_template('home.html', posts=posts_only,user=current_user,now=datetime.now())
 
 @posts.route('/humor')
 def humor():
-    humor_posts = Post.query.filter(Post.tags.contains('humor')).order_by(Post.date_posted.desc()).all()
+    page=request.args.get('page', 1, type=int)
+    humor_posts = Post.query.filter(Post.tags.contains('humor')).order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
     return render_template('home.html', posts=humor_posts, user=current_user, now=datetime.now())
 
 @posts.route('/tips')
 def tips():
-    tech_posts = Post.query.filter(Post.tags.contains('tips')).order_by(Post.date_posted.desc()).all()
+    page=request.args.get('page', 1, type=int)
+    tech_posts = Post.query.filter(Post.tags.contains('tips')).order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
     return render_template('home.html', posts=tech_posts, user=current_user, now=datetime.now())
 @posts.route('/reviews')
 def reviews():
-    review_posts = Post.query.filter(Post.tags.contains('reviews')).order_by(Post.date_posted.desc()).all()
+    page=request.args.get('page', 1, type=int)
+    review_posts = Post.query.filter(Post.tags.contains('reviews')).order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
     return render_template('home.html', posts=review_posts, user=current_user, now=datetime.now())
 @posts.route('/personal')
 def personal():
-    personal_posts = Post.query.filter(Post.tags.contains('personal')).order_by(Post.date_posted.desc()).all() 
+    page=request.args.get('page', 1, type=int)
+    personal_posts = Post.query.filter(Post.tags.contains('personal')).order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
     return render_template('home.html', posts=personal_posts, user=current_user, now=datetime.now())
 @posts.route('/tech')
 def tech():
-    tech = Post.query.filter(Post.tags.contains('tech')).order_by(Post.date_posted.desc()).all() 
+    page=request.args.get('page', 1, type=int)
+    tech = Post.query.filter(Post.tags.contains('tech')).order_by(Post.date_posted.desc()).paginate(page=page,per_page=4) 
     return render_template('home.html', posts=tech, user=current_user, now=datetime.now())
 
 @posts.route('/none')
 def none():
-    none_posts = Post.query.filter(Post.tags.is_(None)).order_by(Post.date_posted.desc()).all() 
+    page=request.args.get('page', 1, type=int)
+    none_posts = Post.query.filter(Post.tags.is_(None)).order_by(Post.date_posted.desc()).paginate(page=page,per_page=4) 
     return render_template('home.html', posts=none_posts, user=current_user, now=datetime.now())
 
 @posts.route('/all')
 def all():
-    all_posts = Post.query.order_by(Post.date_posted.desc()).all()
+    page=request.args.get('page', 1, type=int)
+    all_posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=4) 
     return render_template('home.html', posts=all_posts, user=current_user, now=datetime.now())
 
 @posts.route('/save_posts/<int:post_id>', methods=['GET','POST'])

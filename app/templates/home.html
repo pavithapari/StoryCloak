@@ -164,7 +164,7 @@ article[class^="outline-"],
 
       <!-- a tag styled as a button -->
       <a href="{{ url_for('posts.trending') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
-        <i class="bi bi-graph-up me-2"></i> <b>Trending</b>
+        <i class="bi bi-graph-up me-2"></i> <b>Trending (Top 7)</b>
       </a>
 
          <a href="{{ url_for('posts.latest_posts') }}" class="btn btn-sm btn-outline-primary w-100 text-start mb-2">
@@ -226,4 +226,27 @@ article[class^="outline-"],
 
   </div>
 </div>
+{% if posts.has_prev or posts.has_next %}
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center m-4">
+    <li class="page-item {% if not posts.has_prev %}disabled{% endif %}">
+      <a class="page-link" href="{% if posts.has_prev %}{{ url_for('main.home', page=posts.prev_num) }}{% else %}#{% endif %}" tabindex="-1">Previous</a>
+    </li>
+    
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+      {% if page_num %}
+        <li class="page-item {% if posts.page == page_num %}active{% endif %}">
+          <a class="page-link" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">…</span></li>
+      {% endif %}
+    {% endfor %}
+    
+    <li class="page-item {% if not posts.has_next %}disabled{% endif %}">
+      <a class="page-link" href="{% if posts.has_next %}{{ url_for('main.home', page=posts.next_num) }}{% else %}#{% endif %}">Next</a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
 {% endblock %}
