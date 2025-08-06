@@ -4,9 +4,20 @@
         <!-- POST TAGS -->
         {% if post.tags %}
         <div class="position-absolute top-0 end-0 mt-2 me-2">
-          {% for tag in post.tags.split(',') %}
-          <span class="badge bg-{{ tag.strip() }}">{{ tag.strip() }}</span>
-          {% endfor %}
+          <!-- Show all tags on large screens -->
+          <span class="d-none d-sm-inline">
+            {% for tag in post.tags.split(',') %}
+              <span class="badge bg-{{ tag.strip() }}">{{ tag.strip() }}</span>
+            {% endfor %}
+          </span>
+          <!-- Show only first tag + ... on small screens -->
+          <span class="d-inline d-sm-none">
+            {% set tags = post.tags.split(',') %}
+            <span class="badge bg-{{ tags[0].strip() }}" style="font-size: 0.75em;">{{ tags[0].strip() }}</span>
+            {% if tags|length > 1 %}
+              <span class="badge bg-secondary" style="font-size: 0.75em;">...</span>
+            {% endif %}
+          </span>
         </div>
         {% endif %}
     <!-- USER INFO & CATEGORY -->
@@ -65,22 +76,30 @@
         </div>
           <div class="card-footer d-flex justify-content-between align-items-center bg-light">
             <small class="text-muted">
-                <span class="d-inline d-lg-none">
-                  <i class="bi bi-calendar3"></i> {{ post.date_posted.strftime('%d %b %Y') }}
-                </span>
-                <span class="d-none d-lg-inline">
-                  <i class="bi bi-calendar3"></i> {{ post.date_posted.strftime('%d %b %Y, %H:%M') }}
-                </span>
+              <span class="d-inline d-lg-none">
+                <i class="bi bi-calendar3" title="Date"></i> {{ post.date_posted.strftime('%d %b %Y') }}
+              </span>
+              <span class="d-none d-lg-inline">
+                <i class="bi bi-calendar3"></i> {{ post.date_posted.strftime('%d %b %Y, %H:%M') }}
+              </span>
             </small>
             <div class="d-flex align-items-center gap-2">
-              <button class="like-button" data-post-id="{{ post.id }}">
-                ❤️ <span class="like-count">{{ post.likes | length }}</span>
+              <!-- Like Button -->
+              <button class="like-button" data-post-id="{{ post.id }}" title="Like">
+                <span class="d-inline d-lg-none">❤️</span>
+                <span class="d-none d-lg-inline">❤️ <span class="like-count">{{ post.likes | length }}</span></span>
               </button>
-              <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#shareModal{{ post.id }}">
-                <i class="bi bi-link-45deg"></i> Share
+              <!-- Share Button -->
+              <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#shareModal{{ post.id }}" title="Share">
+                <span class="d-inline d-lg-none"><i class="bi bi-link-45deg"></i></span>
+                <span class="d-none d-lg-inline"><i class="bi bi-link-45deg"></i> Share</span>
               </button>
+              <!-- Save Button -->
               <form action="{{ url_for('posts.save_post', post_id=post.id) }}" method="POST" class="m-0 p-0">
-                <button type="submit" class="btn btn-sm btn-outline-success"><i class="bi bi-bookmark-plus"></i> Save Post</button>
+                <button type="submit" class="btn btn-sm btn-outline-success" title="Save">
+                  <span class="d-inline d-lg-none"><i class="bi bi-bookmark-plus"></i></span>
+                  <span class="d-none d-lg-inline"><i class="bi bi-bookmark-plus"></i> Save Post</span>
+                </button>
               </form>
             </div>
           </div>

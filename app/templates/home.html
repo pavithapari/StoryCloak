@@ -210,6 +210,19 @@ article[class^="outline-"],
 </aside>
 
     <!-- Articles Section -->
+    {% if not user.is_authenticated %}
+    <div class="col-12 col-lg-9 mt-4">
+      {% for post in top_5 %}
+      {% set liked = post.likes | selectattr("user_id", "equalto", current_user.id) | list | length > 0 %}
+      {% include "_post_card.html" %}
+      {% endfor %}
+      </div>
+      <div class="alert alert-info text-center" role="alert">
+        <h4 class="alert-heading">Welcome to StoryCloak!</h4>
+        <p>Explore the latest posts and trending stories. <a href="{{ url_for('users.login') }}">Log in</a> or <a href="{{ url_for('users.signup') }}">register</a> to join the conversation!</p>
+      </div>
+    
+    {% else %}
     <main class="col-12 col-lg-9 mt-4">
       {% for post in posts %}
       {% set liked = post.likes | selectattr("user_id", "equalto", current_user.id) | list | length > 0 %}
@@ -217,15 +230,14 @@ article[class^="outline-"],
       
 {% block like_script %}
 {% endblock %}
-
-
-
       {% endfor %}
     </main>
-
+    
+{% endif %}
 
   </div>
 </div>
+{% if user.is_authenticated %}
 {% if posts.has_prev or posts.has_next %}
 <nav aria-label="Page navigation">
   <ul class="pagination justify-content-center m-4">
@@ -249,4 +261,7 @@ article[class^="outline-"],
   </ul>
 </nav>
 {% endif %}
+{% endif %}
+
+
 {% endblock %}
