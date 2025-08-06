@@ -103,18 +103,20 @@ def send_confirmation_email(user):
                   recipients=[user.email])
     msg.html = f"""
     <html>
-        <body>
-            <h2>Hello {user.username},</h2>
+        <body  style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+            <div style="max-width: 600px; margin: auto; background: antiquewhite; padding: 30px; border-radius: 10px;">
+            <h2 style="color: #333;">Hello {user.username},</h2>
             <p>Please confirm your email by clicking the button below:</p>
             <br>
             <a href="{url_for('users.confirm_mail', token=token, _external=True)}"
                style="padding:10px 20px; background-color:#007BFF; color:white; text-decoration:none; border-radius:5px;">
                Confirm Email
             </a>
-            <br>
-            <p>If you did not create an account, you can safely ignore this email.</p>
+            <br><br>
+            <p>If you did not create/update an account, you can safely ignore this email.</p>
             <p>Thank you for joining StoryCloak!</p>
             <p style="color: #888;">— The StoryCloak Team</p>
+            </div>
         </body>
     </html>
     """
@@ -130,10 +132,11 @@ def send_welcome(email,name):
         <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
             <div style="max-width: 600px; margin: auto; background: antiquewhite; padding: 30px; border-radius: 10px;">
             <h2 style="color: #333;">Welcome to StoryCloak, {name}!</h2>
-            <p>We're excited to have you join our community of storyCloak.</p>          
-            <p>Feel free to explore, share your stories, and connect with others.</p>
-            <p style="margin-top: 20px;">If you have any questions or need help, just reply to this email.</p>
-            <p style="color: #888;">— The StoryCloak Team</p>
+            <p>We're absolutely delighted to welcome you to our StoryCloak family.</p>
+            <p>Here, every story matters and every voice is cherished. We hope you find inspiration, friendship, and joy as you explore and share your own tales.</p>
+            <p>Thank you for bringing your unique perspective to our community. If you ever need help or just want to say hello, we're always here for you.</p>
+            <p style="margin-top: 20px;">Wishing you wonderful adventures ahead!</p>
+            <p style="color: #888;">— With warmth, The StoryCloak Team</p>
             </div>
         </body>
         </html>

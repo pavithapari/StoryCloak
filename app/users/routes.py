@@ -61,11 +61,26 @@ def profile():
          form.email.data=user.email
     if request.method == 'POST':
         if form.validate_on_submit():
-            user.username = form.username.data
-            user.email = form.email.data
-            db.session.commit() 
-            flash("Your profile has been updated successfully!", "success")
-            return redirect(url_for('users.profile'))
+            # Check if the email or username has changed and if they are unique
+            if form.email.data != user.email:
+                existing_user = User.query.filter_by(email=form.email.data).first()
+                if existing_user:
+                    flash("This email is already registered. Please use a different email.", "danger")
+                    return redirect(url_for('users.profile'))
+            if form.username.data != user.username:
+                existing_user = User.query.filter_by(username=form.username.data).first()
+                if existing_user:
+                    flash("This username is already taken. Please choose a different username.", "danger")
+                    return redirect(url_for('users.profile'))
+            if form.username.data!= user.username or form.email.data != user.email:
+                user.username = form.username.data
+                user.email = form.email.data
+                user.is_confirmed = False  # Reset confirmation status
+                send_confirmation_email(user)  # Send confirmation email again
+                flash("Your profile has been updated. Please confirm your new email.", "success")
+                db.session.commit() 
+            
+            return redirect(url_for('users.login'))
 
     return render_template("profile.html",now=datetime.now(),year=datetime.now().year,form=form,user=user,posts=user.posts)
 
