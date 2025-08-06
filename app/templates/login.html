@@ -5,7 +5,12 @@
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Log in</legend>
+            <div class="text-center mb-3">
+                <div class="d-flex align-items-center justify-content-center">
+                    <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" style="height: 70px; margin-right: 12px;">
+                    <span class="fs-4 fw-bold ms-1 text-start" style="flex: 1; text-align: left;">Log in </span>
+                </div>
+            </div>
             <!-- Email -->
             <div class="mb-3">
                 <div class="input-group">
