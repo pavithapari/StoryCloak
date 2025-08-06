@@ -116,7 +116,7 @@ def upload_profile_picture():
 @login_required
 def reset_profile_picture():
     old_picture_path = current_user.profile_picture
-    new_picture = save_avatar(current_user.email,suppress_errors=True)
+    new_picture = save_avatar(current_user.email,suppress_errors=False)
     if new_picture is None:
         flash("Failed to reset profile picture. Please try again.", "danger")
         return redirect(url_for('users.profile'))
@@ -125,7 +125,7 @@ def reset_profile_picture():
         current_user.profile_picture = new_picture
         db.session.commit()
         flash("Your profile picture has been reset successfully!", "success")
-        return redirect(url_for('users.profile'))
+        return redirect(url_for('users.profile', toast='reset-success'))
 
 @users.route("/reset_password",methods=['GET','POST'])
 def reset_request():

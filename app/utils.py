@@ -29,7 +29,6 @@ def save_avatar(email, suppress_errors=True):
 
     except RequestException as e:
         if suppress_errors:
-            flash('Failed to save the avatar, using the default one, try again during stable internet connection','danger')
             return "/avatars/test.svg"
         else:
             # Let the error bubble up to trigger Flask's app_errorhandler
