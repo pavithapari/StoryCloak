@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Database Error{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+  <h1 class="text-danger">Oops! Timeout Error ⏳</h1>
+  <p class="lead">The request took too long to complete. Please try again later.</p>
+  <p>If the problem persists, please contact support.</p>
+  <a href="{{ url_for('main.home') }}" class="btn btn-primary mt-3">Back to Home</a>
+{% endblock %}
