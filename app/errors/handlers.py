@@ -11,23 +11,23 @@ errors=Blueprint('errors', __name__)
 @errors.app_errorhandler(SQLAlchemyError)
 def handle_sqlalchemy_error(error):
     current_app.logger.error(f"[SQLAlchemy Error] {str(error)}")
-    return render_template("errors/database_error.html"), 500
+    return render_template("errors/database_error.html",now=datetime.now(),user=current_user), 500
 
 
 @errors.app_errorhandler(404)
 def error_404(error):
     current_app.logger.error(f"[404 Error] {str(error)}")
-    return render_template('errors/404.html',now=datetime,user=current_user), 404
+    return render_template('errors/404.html',now=datetime.now(),user=current_user), 404
 
 @errors.app_errorhandler(403)
 def error_403(error):
     current_app.logger.error(f"[403 Error] {str(error)}")
-    return render_template('errors/403.html',now=datetime,user=current_user), 403
+    return render_template('errors/403.html',now=datetime.now(),user=current_user), 403
 
 @errors.app_errorhandler(500)
 def error_500(error):
     current_app.logger.error(f"[500 Error] {str(error)}")
-    return render_template('errors/500.html',now=datetime,user=current_user), 500
+    return render_template('errors/500.html',now=datetime.now(),user=current_user), 500
 
 @errors.app_errorhandler(requests.exceptions.ConnectionError)
 def handle_connection_error(e):

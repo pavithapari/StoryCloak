@@ -11,7 +11,7 @@
       </span>
 
       <div class="d-flex align-items-center mb-3">
-        <img src="{{ url_for('static', filename=user.profile_picture) }}"
+        <img src="{{user.profile_picture}}"
              alt="avatar" class="rounded-circle me-2" width="40" height="40">
         <div>
           <h6 class="mb-0">{{ user.username }}</h6>

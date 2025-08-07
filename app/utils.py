@@ -9,23 +9,13 @@ from app import mail
 from flask_mail import Message
 from requests.exceptions import RequestException
 
+
 def save_avatar(email, suppress_errors=True):
     try:
         url = f"https://api.dicebear.com/9.x/fun-emoji/svg?seed={email}&mouth=cute,kissHeart,lilSmile,plain,shy,smileLol,smileTeeth,tongueOut,wideSmile"
         response = requests.get(url)
         response.raise_for_status()
-
-        base_path = os.path.dirname(os.path.abspath(__file__))
-        folder_path = os.path.join(base_path, "static", "avatars")
-        os.makedirs(folder_path, exist_ok=True)
-
-        random_hex = secrets.token_hex(4)
-        filename = f"{random_hex}_{secure_filename(email)}.svg"
-        file_path = os.path.join(folder_path, filename)
-
-        with open(file_path, "wb") as f:
-            f.write(response.content)
-        return f"/avatars/{filename}"
+        return url
 
     except RequestException as e:
         if suppress_errors:
@@ -35,38 +25,6 @@ def save_avatar(email, suppress_errors=True):
             raise
 
 
-def delete_old_avatar(old_picture_path):
-    if not isinstance(old_picture_path, str):
-        return current_user.profile_picture  # Ignore if it's not a string
-
-    if "dicebear.com" in old_picture_path or "default" in old_picture_path:
-        return  # Don't delete remote or default images
-
-    # Remove leading slash, so it's a valid relative path inside /static/
-    relative_path = old_picture_path.lstrip("/")
-    full_path = os.path.join(current_app.root_path, 'static', relative_path)
-
-    if os.path.exists(full_path):
-        os.remove(full_path)
-        print(f"Deleted old avatar at: {full_path}")
-
-def save_picture(new_picture_file,email):
-    # Save new image
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(new_picture_file.filename)
-    if f_ext.lower() not in ['.jpg', '.jpeg', '.png']:
-        flash("Invalid image format. Please upload a JPG, PNG, or GIF.", "error")
-        return 
-    picture_fn = secure_filename(email) + "_" + random_hex + f_ext
-    picture_path = os.path.join(current_app.root_path, 'static/avatars', picture_fn)
-    os.makedirs(os.path.dirname(picture_path), exist_ok=True)
-
-    output_size = (300, 300)
-    i = Image.open(new_picture_file)
-    i.thumbnail(output_size)
-    i.save(picture_path)
-    flash("New image saved","success")
-    return f"/avatars/{picture_fn}"
 
 
 

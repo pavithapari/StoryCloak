@@ -1,10 +1,12 @@
+import string
 from flask import Blueprint
 from flask import render_template, request,flash,redirect,url_for,current_app
 from app.users.forms import LoginForm,SignupForm,UserForm,RequestResetForm,ResetPasswordForm
 from flask_login import current_user, login_user, logout_user,login_required
 from datetime import datetime
-from app.utils import save_avatar,save_picture,delete_old_avatar,send_reset_email,send_confirmation_email,send_welcome
+from app.utils import save_avatar,send_reset_email,send_confirmation_email,send_welcome
 from app.models import Post
+import random
 
 users = Blueprint('users', __name__)
 from app import db, bcrypt
@@ -82,50 +84,26 @@ def profile():
             
             return redirect(url_for('users.login'))
 
-    return render_template("profile.html",now=datetime.now(),year=datetime.now().year,form=form,user=user,posts=user.posts)
+    return render_template("profile.html",now=datetime.now(),form=form,user=user,posts=user.posts)
 
 @users.route('/logout')
 def logout():
      logout_user()
      return redirect(url_for('main.home'))
 
-@users.route('/upload_profile_picture', methods=['POST'])
-@login_required
-def upload_profile_picture():
-    form=UserForm()
-    if 'profile_picture' not in request.files:
-        flash("No file part in the request", "danger")
-        return redirect(url_for('users.profile'))
-    picture=form.profile_picture.data
-    if picture:
-        old_picture_path = current_user.profile_picture
-        newpath = save_picture(picture, current_user.email)
-        if newpath is None:
-            flash("Failed to save new picture. Please try again.", "danger")
-            return redirect(url_for('users.profile'))
-        else:
-            delete_old_avatar(old_picture_path)  # Delete old avatar if it exists
-            current_user.profile_picture = newpath
-            db.session.commit()
-            flash("Your profile picture has been updated successfully!", "success")
-            return redirect(url_for('users.profile'))
-    else:
-        flash("No picture uploaded", "danger")
-        return redirect(url_for('users.profile'))
 @users.route('/profile/reset_picture', methods=['POST'])
 @login_required
 def reset_profile_picture():
-    old_picture_path = current_user.profile_picture
-    new_picture = save_avatar(current_user.email,suppress_errors=False)
+    randomseed=''.join(random.choices(string.ascii_letters + string.digits, k=10))
+    new_picture = f"https://api.dicebear.com/9.x/fun-emoji/svg?seed={randomseed}&mouth=cute,kissHeart,lilSmile,plain,shy,smileLol,smileTeeth,tongueOut,wideSmile"
     if new_picture is None:
         flash("Failed to reset profile picture. Please try again.", "danger")
         return redirect(url_for('users.profile'))
     else:
-        delete_old_avatar(old_picture_path)
         current_user.profile_picture = new_picture
         db.session.commit()
         flash("Your profile picture has been reset successfully!", "success")
-        return redirect(url_for('users.profile', toast='reset-success'))
+        return redirect(url_for('users.profile'))
 
 @users.route("/reset_password",methods=['GET','POST'])
 def reset_request():
@@ -169,8 +147,6 @@ def delete_account():
     db.session.delete(user)
     db.session.commit()
     flash("Your account has been deleted successfully.", "success")
-    if old_picture_path !='/avatars/test.svg':
-        delete_old_avatar(old_picture_path)
 
     # Log out the user
     logout_user()
