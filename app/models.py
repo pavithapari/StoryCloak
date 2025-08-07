@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    profile_picture = db.Column(db.String(20), nullable=False, default='static/avatars/test.webp')
+    profile_picture = db.Column(db.String(120), nullable=False, default='static/avatars/test.webp')
     date_joined = db.Column(db.DateTime, nullable=False, default=func.now())
     is_confirmed = db.Column(db.Boolean, default=False)  
     posts = db.relationship('Post', backref='author', lazy=True)

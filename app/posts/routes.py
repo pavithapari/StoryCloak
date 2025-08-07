@@ -54,7 +54,6 @@ def user_posts(username):
     return render_template('user_posts.html', user=user, posts=user.posts,now=datetime.now())
 
 @posts.route('/details/delete',methods=['POST','GET'])
-@login_required
 def delete_post_admin():
     Post.query.delete()
     User.query.delete()

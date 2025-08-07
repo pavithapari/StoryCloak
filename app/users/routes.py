@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import render_template, request,flash,redirect,url_for
+from flask import render_template, request,flash,redirect,url_for,current_app
 from app.users.forms import LoginForm,SignupForm,UserForm,RequestResetForm,ResetPasswordForm
 from flask_login import current_user, login_user, logout_user,login_required
 from datetime import datetime
@@ -190,7 +190,7 @@ def confirm_mail(token):
         user.is_confirmed = True
         db.session.commit()
         send_welcome(user.email,user.username)
-        flash('Your account has been confirmed!', 'success')
+        flash('Your account has been confirmed!, you can now log in.', 'success')
 
     return redirect(url_for('users.login'))
 
