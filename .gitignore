@@ -9,3 +9,5 @@ app/static/avatars/*
 app/templates/details.html
 
 instance/app.db
+
+config.py
