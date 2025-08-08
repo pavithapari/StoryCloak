@@ -166,7 +166,7 @@ def confirm_mail(token):
         user.is_confirmed = True
         db.session.commit()
         send_welcome(user.email,user.username)
-        flash('Your account has been confirmed!, you can now log in.', 'success')
+        flash('Your account has been confirmed!, You can now log in.', 'success')
 
     return redirect(url_for('users.login'))
 

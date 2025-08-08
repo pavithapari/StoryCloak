@@ -39,7 +39,7 @@ def send_reset_email(user):
     <div style="max-width: 600px; margin: auto; background: antiquewhite; padding: 30px; border-radius: 10px; text-align: center;">
         
         <!-- Logo Image -->
-        <img src="{{ url_for('static', filename='logo.svg') }}" alt="StoryCloak Logo" style="width: 120px; margin-bottom: 20px;">
+        <img src="https://i.postimg.cc/z3XVNHQr/logo.png" alt="StoryCloak Logo" style="width: 120px; margin-bottom: 20px;">
 
         <h2 style="color: #333;">Hi {{ user.username }},</h2>
         <p>We received a request to reset your password. Click the button below to proceed:</p>
@@ -71,7 +71,7 @@ def send_confirmation_email(user):
         <div style="max-width: 600px; margin: auto; background: antiquewhite; padding: 30px; border-radius: 10px;">
             <!-- Logo -->
             <div style="text-align: center; margin-bottom: 20px;">
-                <img src="{{ url_for('static', filename='logo.svg') }}" alt="StoryCloak Logo" style="max-width: 150px;">
+                <img src="https://i.postimg.cc/z3XVNHQr/logo.png" alt="StoryCloak Logo" style="max-width: 150px;">
             </div>
 
             <h2 style="color: #333;">Hello {user.username},</h2>
@@ -103,7 +103,7 @@ def send_welcome(email,name):
     <div style="max-width: 600px; margin: auto; background: antiquewhite; padding: 30px; border-radius: 10px; text-align: center;">
         
         <!-- Logo at the top -->
-        <img src="{{ url_for('static', filename='logo.svg') }}" alt="StoryCloak Logo" style="max-width: 150px; margin-bottom: 20px;">
+        <img src="https://i.postimg.cc/z3XVNHQr/logo.png" alt="StoryCloak Logo" style="max-width: 150px; margin-bottom: 20px;">
 
         <h2 style="color: #333;">Welcome to StoryCloak, {name}!</h2>
         <p>We're absolutely delighted to welcome you to our StoryCloak family.</p>
