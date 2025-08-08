@@ -19,7 +19,7 @@ def save_avatar(email, suppress_errors=True):
 
     except RequestException as e:
         if suppress_errors:
-            return "/avatars/test.svg"
+            return "https://api.dicebear.com/9.x/fun-emoji/svg?seed=Eliza"
         else:
             # Let the error bubble up to trigger Flask's app_errorhandler
             raise

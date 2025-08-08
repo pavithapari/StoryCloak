@@ -57,6 +57,13 @@ def create_app():
     app.register_blueprint(notes)
     app.register_blueprint(errors)
 
+    @app.teardown_appcontext
+    def shutdown_session(exception=None):
+        """Rollback and remove session at the end of the request."""
+        if exception:
+            db.session.rollback()
+        db.session.remove()
+
     with app.app_context():
         from app.models import User, Post
         db.create_all()

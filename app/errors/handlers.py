@@ -6,7 +6,13 @@ from flask_login import current_user
 from datetime import datetime
 from werkzeug.exceptions import BadRequest
 from requests.exceptions import RequestException
+from sqlalchemy.exc import OperationalError
 errors=Blueprint('errors', __name__)
+
+@errors.app_errorhandler(OperationalError)
+def handle_operational_error(error):
+    current_app.logger.error(f"[Operational Error] {str(error)}")
+    return render_template("errors/database_error.html", now=datetime.now(), user=current_user), 500
 
 @errors.app_errorhandler(SQLAlchemyError)
 def handle_sqlalchemy_error(error):

@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    profile_picture = db.Column(db.String(200), nullable=False, default='static/avatars/test.webp')
+    profile_picture = db.Column(db.String(200), nullable=False, default='https://api.dicebear.com/9.x/fun-emoji/svg?seed=Eliza')
     date_joined = db.Column(db.DateTime, nullable=False, default=func.now())
     is_confirmed = db.Column(db.Boolean, default=False)  
     posts = db.relationship('Post', backref='author', lazy=True)

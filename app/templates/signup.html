@@ -99,7 +99,39 @@
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info mt-3 mb-3") }}
         </div>
-    </form>
+        </form>
+        <!-- Terms and Conditions Link and Modal Trigger -->
+        <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">
+            <i class="fa fa-file-contract me-1"></i> Terms and conditions
+        </a>
+
+        <!-- Terms and Conditions Modal -->
+        <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>By creating an account and using this app, you agree to follow these rules:</p>
+                        <ul>
+                            <li>Do not share private, personal, or sensitive information in your profile or posts.</li>
+                            <li>Use generic usernames that do not reveal your real name or identity.</li>
+                            <li>Do not upload, post, or share illegal, harmful, or offensive content.</li>
+                            <li>Be respectful to other users. Hate speech, harassment, and discrimination are strictly prohibited.</li>
+                            <li>Do not attempt to hack, exploit, or disrupt the functioning of this application.</li>
+                            <li>Understand that your activity may be logged for security and moderation purposes.</li>
+                            <li>Violation of these terms may result in suspension or permanent banning of your account.</li>
+                        </ul>
+                        <p><strong>Privacy Notice:</strong> We do not collect or store any personal information beyond what is necessary for the functioning of this app.<b>We never collect your Private notes </b></p>
+                        <p><strong>Disclaimer:</strong> This application is developed for educational purposes only and is not intended for commercial use.</p>
+                        
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+    
 
     <div class="border-top mb-4 mt-3 pt-3">
         <small class="text-muted">
