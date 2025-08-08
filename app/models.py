@@ -1,10 +1,10 @@
 from app import db, login_manager
 from flask import current_app
 from flask_login import UserMixin
-from datetime import datetime
+
 from itsdangerous import URLSafeTimedSerializer as Serializer
 from sqlalchemy.sql import func
-
+from datetime import timedelta
 
 # --------------------- User Model ---------------------
 class User(db.Model, UserMixin):
@@ -62,7 +62,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     tags = db.Column(db.String(30), nullable=True)
     visibility = db.Column(db.String(10), nullable=False, default='private')
-    date_posted = db.Column(db.DateTime, nullable=False, default=func.now())
+    date_posted = db.Column(db.DateTime, nullable=False, default=func.timezone('Asia/Kolkata', func.now()))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     saved_by_users = db.relationship('SavePost', back_populates='post', cascade="all, delete-orphan")
     likes = db.relationship('Like', back_populates='post', cascade="all, delete-orphan")
@@ -89,8 +89,8 @@ class PrivateNote(db.Model):
     title = db.Column(db.String(100))
     content = db.Column(db.Text)
     visibility = db.Column(db.String(10), nullable=False, default='private')
-    created_at = db.Column(db.DateTime, default=func.now())
-    updated_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
+    created_at = db.Column(db.DateTime, default=func.timezone('Asia/Kolkata', func.now()))
+    updated_at = db.Column(db.DateTime, default=func.timezone('Asia/Kolkata', func.now()), onupdate=func.timezone('Asia/Kolkata', func.now()))
 
     # ✅ Only one relationship to User to avoid conflict
     author = db.relationship('User', back_populates='private_notes')
