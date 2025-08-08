@@ -10,17 +10,10 @@
       <div class="position-sticky" style="top: 80px;">
         <div class="card shadow-sm p-4">
           <div class="text-center mb-3">
-            <img src="{{ url_for('static', filename=user.profile_picture) }}"
+            <img src="{{ user.profile_picture }}"
                  class="rounded-circle img-fluid"
                  style="width: 130px; height: 130px;" alt="avatar">
           </div>
-
-          <!-- Upload Form -->
-          <form method="POST" enctype="multipart/form-data" action="{{ url_for('users.upload_profile_picture') }}">
-            {{ form.csrf_token }}
-            {{ form.profile_picture(class="form-control mb-2") }}
-            {{ form.submit_profile(class="btn btn-primary w-100 mb-2") }}
-          </form>
 
           <!-- Reset Button -->
           <form method="POST" action="{{ url_for('users.reset_profile_picture') }}">

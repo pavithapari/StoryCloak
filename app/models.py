@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    profile_picture = db.Column(db.String(20), nullable=False, default='static/avatars/test.webp')
+    profile_picture = db.Column(db.String(200), nullable=False, default='static/avatars/test.webp')
     date_joined = db.Column(db.DateTime, nullable=False, default=func.now())
     is_confirmed = db.Column(db.Boolean, default=False)  
     posts = db.relationship('Post', backref='author', lazy=True)
@@ -63,7 +63,7 @@ class Post(db.Model):
     tags = db.Column(db.String(30), nullable=True)
     visibility = db.Column(db.String(10), nullable=False, default='private')
     date_posted = db.Column(db.DateTime, nullable=False, default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     saved_by_users = db.relationship('SavePost', back_populates='post', cascade="all, delete-orphan")
     likes = db.relationship('Like', back_populates='post', cascade="all, delete-orphan")
 
@@ -72,8 +72,8 @@ class Like(db.Model):
     __tablename__ = 'like_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id',ondelete='CASCADE'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id',ondelete='CASCADE'))
     timestamp = db.Column(db.DateTime, default=func.now())
 
     user = db.relationship('User', back_populates='likes')
@@ -85,7 +85,7 @@ class PrivateNote(db.Model):
     __tablename__ = 'private_notes'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id',ondelete='CASCADE'), nullable=False)
     title = db.Column(db.String(100))
     content = db.Column(db.Text)
     visibility = db.Column(db.String(10), nullable=False, default='private')
@@ -100,8 +100,8 @@ class PrivateNote(db.Model):
 class SavePost(db.Model):
     __tablename__ = 'saved_posts'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    post_id=db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id',ondelete='CASCADE'), nullable=False)
+    post_id=db.Column(db.Integer, db.ForeignKey('posts.id',ondelete='CASCADE'), nullable=False)
     user = db.relationship('User', back_populates='saved_posts')
     post = db.relationship('Post', back_populates='saved_by_users')
 

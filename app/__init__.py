@@ -6,13 +6,29 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from config import Config
 from flask_migrate import Migrate
+import logging
+from logging.handlers import RotatingFileHandler
+import os
+# Initialize extensions
+
 
 db = SQLAlchemy()
 migrate=Migrate()
 bcrypt = Bcrypt()
 login_manager = LoginManager()  # 
 mail=Mail() 
-def create_app(config_class=Config):
+
+def setup_logging(app):
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    file_handler = RotatingFileHandler('logs/error.log', maxBytes=10240, backupCount=3)
+    file_handler.setLevel(logging.ERROR)
+    formatter = logging.Formatter('%(asctime)s [%(levelname)s] - %(message)s')
+    file_handler.setFormatter(formatter)
+    app.logger.addHandler(file_handler)
+
+    
+def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
@@ -20,7 +36,8 @@ def create_app(config_class=Config):
     migrate.init_app(app,db)
     bcrypt.init_app(app)
     login_manager.init_app(app)  
-    
+    setup_logging(app)
+
 
     #  Configure LoginManager
     login_manager.login_view = 'users.login'  # function name of login route
@@ -42,3 +59,5 @@ def create_app(config_class=Config):
         db.create_all()
 
     return app
+
+
