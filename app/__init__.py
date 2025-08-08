@@ -19,15 +19,13 @@ login_manager = LoginManager()  #
 mail=Mail() 
 
 def setup_logging(app):
-        # Stream logging (for Render / production console logs)
-    formatter = logging.Formatter('%(asctime)s [%(levelname)s] - %(message)s [in %(pathname)s:%(lineno)d]')
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.INFO)
-    stream_handler.setFormatter(formatter)
-    app.logger.addHandler(stream_handler)
-
-    app.logger.setLevel(logging.INFO)
-    app.logger.info("Logging has been configured.")
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    file_handler = RotatingFileHandler('logs/error.log', maxBytes=10240, backupCount=3)
+    file_handler.setLevel(logging.ERROR)
+    formatter = logging.Formatter('%(asctime)s [%(levelname)s] - %(message)s')
+    file_handler.setFormatter(formatter)
+    app.logger.addHandler(file_handler)
 
 
     
