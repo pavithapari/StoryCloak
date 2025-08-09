@@ -27,8 +27,3 @@ def home():
     top_5=[post for post,like in trending_posts]
     posts=Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=4) 
     return render_template('home.html', now=datetime.now(), year=current_year,user=current_user,posts=posts,top_5=top_5)
-@main.route('/details')
-def details():
-    likes=Like.query.all()
-    users = User.query.all()
-    return render_template('details.html', users=users,likes=likes)

@@ -53,13 +53,6 @@ def user_posts(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user_posts.html', user=user, posts=user.posts,now=datetime.now())
 
-@posts.route('/details/delete',methods=['POST','GET'])
-def delete_post_admin():
-    Post.query.delete()
-    User.query.delete()
-    flash("All posts and users have been deleted successfully!", "success")
-    db.session.commit()
-    return redirect(url_for('main.home'))
 @posts.route('/posts/<int:post_id>', methods=['POST','GET'])
 @login_required
 def readmore(post_id):
