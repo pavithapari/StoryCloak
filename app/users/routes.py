@@ -74,13 +74,26 @@ def profile():
                 if existing_user:
                     flash("This username is already taken. Please choose a different username.", "danger")
                     return redirect(url_for('users.profile'))
-            if form.username.data!= user.username or form.email.data != user.email:
-                user.username = form.username.data
+            email_changed = form.email.data != user.email
+            username_changed = form.username.data != user.username
+
+            if email_changed and username_changed:
                 user.email = form.email.data
+                user.username = form.username.data
                 user.is_confirmed = False  # Reset confirmation status
-                send_confirmation_email(user)  # Send confirmation email again
-                flash("Your profile has been updated. Please confirm your new email.", "success")
-                db.session.commit() 
+                send_confirmation_email(user)
+                db.session.commit()
+                flash("Your email and username have been updated. Please confirm your new email.", "success")
+            elif email_changed:
+                user.email = form.email.data
+                user.is_confirmed = False
+                send_confirmation_email(user)
+                db.session.commit()
+                flash("Your email has been updated. Please confirm your new email.", "success")
+            elif username_changed:
+                user.username = form.username.data
+                db.session.commit()
+                flash("Your username has been updated.", "success")
             
             return redirect(url_for('users.login'))
 
