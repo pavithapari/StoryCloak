@@ -10,6 +10,11 @@ from app.models import User,Like
 
 main = Blueprint('main', __name__)
 
+
+@main.route("/_ping")
+def ping():
+    return "OK", 200
+
 @main.route('/')
 def home():
     current_year = datetime.now().year
