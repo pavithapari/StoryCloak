@@ -11,7 +11,7 @@
 ---
 
 ## 🚀 Live Demo
-You can try the app here: [StoryCloak on Render](https://https://storycloak.onrender.com/)
+You can try the app here: [StoryCloak on Render](https://storycloak.onrender.com/)
 
 
 ## 📖 About the Project
