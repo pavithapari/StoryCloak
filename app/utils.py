@@ -10,9 +10,9 @@ from flask_mail import Message
 from requests.exceptions import RequestException
 
 
-def save_avatar(email, suppress_errors=True):
+def save_avatar(name, suppress_errors=True):
     try:
-        url = f"https://api.dicebear.com/9.x/fun-emoji/svg?seed={email}&mouth=cute,kissHeart,lilSmile,plain,shy,smileLol,smileTeeth,tongueOut,wideSmile"
+        url = f"https://api.dicebear.com/9.x/fun-emoji/svg?seed={name}&mouth=cute,kissHeart,lilSmile,plain,shy,smileLol,smileTeeth,tongueOut,wideSmile"
         response = requests.get(url)
         response.raise_for_status()
         return url
@@ -41,10 +41,10 @@ def send_reset_email(user):
         <!-- Logo Image -->
         <img src="https://i.postimg.cc/z3XVNHQr/logo.png" alt="StoryCloak Logo" style="width: 120px; margin-bottom: 20px;">
 
-        <h2 style="color: #333;">Hi {{ user.username }},</h2>
+        <h2 style="color: #333;">Hi { user.username },</h2>
         <p>We received a request to reset your password. Click the button below to proceed:</p>
         
-        <a href="{{ url_for('users.reset_token', token=token, _external=True) }}"
+        <a href="{ url_for('users.reset_token', token=token, _external=True) }"
             style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white;
                     text-decoration: none; border-radius: 5px; font-weight: bold;">
             Reset Password

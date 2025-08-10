@@ -36,7 +36,7 @@ def signup():
     if request.method == 'POST':
         if form.validate_on_submit():
             hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-            picture = save_avatar(form.email.data)  # FIXED HERE
+            picture = save_avatar(form.username.data)  # FIXED HERE
 
             user = User(
                 username=form.username.data,
@@ -94,6 +94,7 @@ def profile():
                 user.username = form.username.data
                 db.session.commit()
                 flash("Your username has been updated.", "success")
+                return redirect(url_for('users.profile'))
             
             return redirect(url_for('users.login'))
 
