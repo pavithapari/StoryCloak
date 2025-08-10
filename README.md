@@ -94,6 +94,7 @@ Run the following commands to set up and apply migrations:
 flask db init
 flask db migrate -m "Initial migration"
 flask db upgrade
+```
 
 
 7. **Run the application**
